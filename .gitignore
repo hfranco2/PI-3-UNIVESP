@@ -1,0 +1,6 @@
+.env
+pizzaria/app/__pycache__/
+pizzaria/app/migrations/__pycache__/
+pizzaria/pizzaria/__pycache__/
+*.pyc
+pizzaria/frontend/package-lock.json
