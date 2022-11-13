@@ -1,28 +1,26 @@
+import { dividerClasses } from "@mui/material";
 import React, { Component } from "react";
-import ReactDOM from 'react-dom/client';
-
-import MiniDrawer from "./MiniDrawer";
+import ReactDOM from "react-dom/client";
+import RequestPage from "./request";
+import {BrowserRouter as Router,Routes,Switch, Route, Link, Redirect} from "react-router-dom";
 export default class App extends Component {
 	constructor(props) {
 		super(props);
-  
 	}
 	render() {
-
 		return (
-			<div>
-				<MiniDrawer/>
-				<h1>testando</h1>
-               
-
-			</div>
+			<Router>
+				<Routes>
+                     <Route exact path='/' element={<RequestPage />}/>
+                </Routes>
+			</Router>
 		);
 	}
 }
 
 const root = ReactDOM.createRoot(document.getElementById("app"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>
 );
