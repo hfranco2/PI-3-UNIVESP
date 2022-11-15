@@ -20,7 +20,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "flex-end",
-
+   
 	padding: theme.spacing(0, 1),
 	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
@@ -35,6 +35,8 @@ const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
 				"#": /[1-9]/,
 			}}
 			inputRef={ref}
+            placeholder='0000000000'
+            label='0000000000'
 			onAccept={(value) =>
 				onChange({ target: { name: props.name, value } })
 			}
@@ -76,8 +78,9 @@ export default function RequestPage() {
 							name="textmask"
 							id="formatted-text-mask-input"
 							inputComponent={TextMaskCustom}
-					label="teste"
+					        // label="teste"
 							variant="outlined"
+                           
 							md={12}
 							sx={{
 								width: 1 / 1,
