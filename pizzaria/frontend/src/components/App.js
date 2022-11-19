@@ -2,18 +2,35 @@ import { dividerClasses } from "@mui/material";
 import React, { Component } from "react";
 import ReactDOM from "react-dom/client";
 import RequestPage from "./request";
-import {BrowserRouter as Router,Routes,Switch, Route, Link, Redirect} from "react-router-dom";
+import Signin from "./Signin";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Switch,
+	Route,
+	Link,
+	Redirect,
+} from "react-router-dom";
+import { AuthProvider } from "../context/auth";
+
+const Private = ({ Item }) => {
+	const signed = useAuth();
+	return signed > 0 ? <App /> : <Signin />;
+};
 export default class App extends Component {
 	constructor(props) {
 		super(props);
 	}
 	render() {
 		return (
-			<Router>
-				<Routes>
-                     <Route exact path='/' element={<RequestPage />}/>
-                </Routes>
-			</Router>
+			<AuthProvider>
+				<Router>
+					<Routes>
+						<Route exact path="/" element={<RequestPage />} />
+                        <Route exact path="/login" element={<Signin />} />
+					</Routes>
+				</Router>
+			</AuthProvider>
 		);
 	}
 }
