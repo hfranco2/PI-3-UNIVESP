@@ -30,6 +30,7 @@
     "dependencies": {
         "@mui/icons-material": "^5.10.9",
         "@mui/styles": "^5.10.10",
+        "@mui/x-data-grid": "^5.17.12",
         "imask": "^6.4.3",
         "react-imask": "^6.4.3",
         "react-input-mask": "^2.0.4"

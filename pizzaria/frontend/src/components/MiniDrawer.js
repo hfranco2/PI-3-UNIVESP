@@ -174,7 +174,7 @@ export default function PermanentDrawerLeft() {
           {['Recepcao', 'Cozinha', 'Delivery'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
-                <Link to= {text == 'Recepcao' ? '/' : (text == 'Cozinha' ? '/chef': '/delivery')}>
+                <Link to= {text == 'Recepcao' ? '/' : (text == 'Cozinha' ? '/cozinha': '/delivery')}>
                 <ListItemIcon>
                   {text == 'Recepcao' ? <LocalPhoneIcon/> : (text == 'Cozinha' ? <SoupKitchenIcon/> : <TwoWheelerIcon/>)}
                 </ListItemIcon>
