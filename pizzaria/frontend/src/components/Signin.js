@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Input } from "@mui/material";
-import Button from "@mui/material";
-import FormLabel from "@mui/material";
+import  Input  from "@mui/material/Input";
+import Button from '@mui/material/Button';
+import FormLabel from "@mui/material/FormLabel";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { Box } from "@mui/system";
@@ -47,7 +47,7 @@ const Signin = () => {
           onChange={(e) => [setSenha(e.target.value), setError("")]}
         />
         <FormLabel>{error}</FormLabel>
-        <Button Text="Entrar" onClick={handleLogin} />
+        <Button text="Entrar" onClick={handleLogin} />
       </Box>
     </Box>
   );
