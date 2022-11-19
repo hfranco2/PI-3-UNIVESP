@@ -1,39 +1,39 @@
-import * as React from "react";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import SoupKitchenIcon from '@mui/icons-material/SoupKitchen';
+import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
+import {BrowserRouter as Router,Routes,Switch, Route, Link, Redirect} from "react-router-dom";
 import { styled, alpha, useTheme } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
-import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import { TextField } from "@mui/material";
+import InputBase from "@mui/material/InputBase";
+import IconButton from "@mui/material/IconButton";
+import MoreIcon from "@mui/icons-material/MoreVert";
 import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import InputBase from "@mui/material/InputBase";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-
-const drawerWidth = 240;
+const drawerWidth = 80;
 const useStyles = makeStyles(theme => ({
   root: {
   
-  }
+  },
+
 }));
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -74,135 +74,33 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 		},
 	},
 }));
-const openedMixin = (theme) => ({
-	width: drawerWidth,
-	transition: theme.transitions.create("width", {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.enteringScreen,
-	}),
-	overflowX: "hidden",
-});
 
-const closedMixin = (theme) => ({
-	transition: theme.transitions.create("width", {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
-	}),
-	overflowX: "hidden",
-	width: `calc(${theme.spacing(7)} + 1px)`,
-	[theme.breakpoints.up("sm")]: {
-		width: `calc(${theme.spacing(8)} + 1px)`,
-	},
-});
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-	display: "flex",
-	alignItems: "center",
-	justifyContent: "flex-end",
- 
-	padding: theme.spacing(0, 1),
-	// necessary for content to be below app bar
-	...theme.mixins.toolbar,
-}));    
-
-const AppBar = styled(MuiAppBar, {
-	shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-	zIndex: theme.zIndex.drawer + 1,
-      background:"#000000",
-	transition: theme.transitions.create(["width", "margin"], {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
-	}),
-	...(open && {
-		marginLeft: drawerWidth,
-		width: `calc(100% - ${drawerWidth}px)`,
-        background:"#000000",
-		transition: theme.transitions.create(["width", "margin"], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	}),
-}));
-
-const Drawer = styled(MuiDrawer, {
-	shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-	width: drawerWidth,
-	flexShrink: 0,
-	whiteSpace: "nowrap",
-	boxSizing: "border-box",
-	...(open && {
-		...openedMixin(theme),
-		"& .MuiDrawer-paper": openedMixin(theme),
-	}),
-	...(!open && {
-		...closedMixin(theme),
-		"& .MuiDrawer-paper": closedMixin(theme),
-	}),
-}));
-
-export default function MiniDrawer() {
-	const theme = useTheme();
-    const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-	const isMenuOpen = Boolean(anchorEl);
-	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
-
-	const handleDrawerClose = () => {
-		setOpen(false);
-	};
-	const handleProfileMenuOpen = (event) => {
+export default function PermanentDrawerLeft() {
+        const classes = useStyles();
+        const menuId = "primary-search-account-menu";
+	const mobileMenuId = "primary-search-account-menu-mobile";
+		const handleProfileMenuOpen = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
 
 	const handleMobileMenuClose = () => {
 		setMobileMoreAnchorEl(null);
 	};
-
-	const handleMenuClose = () => {
-		setAnchorEl(null);
-		handleMobileMenuClose();
-	};
-
-	const handleMobileMenuOpen = (event) => {
+    	const handleMobileMenuOpen = (event) => {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
-	const menuId = "primary-search-account-menu";
-	const mobileMenuId = "primary-search-account-menu-mobile";
-	return (
-		<Box>
-			<CssBaseline />
-			<AppBar position="fixed" open={open}>
-				<Toolbar className={classes.root}
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+      >
+        				<Toolbar className={classes.root}
                 backgroundcolor= "#000000"
                        >
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
-						sx={{
-							marginRight: 5,
-							...(open && { display: "none" }),
-						}}
-					>
-						<MenuIcon />
-					</IconButton>
-					<Typography
-						variant="h6"
-						noWrap
-						component="div"
-						sx={{ display: { xs: "none", sm: "block" } }}
-					>
-						Pizzaria
-					</Typography>
+
+
 					<Search>
 						<SearchIconWrapper>
 							<SearchIcon />
@@ -257,95 +155,36 @@ export default function MiniDrawer() {
 						</IconButton>
 					</Box>
 				</Toolbar>
-			</AppBar>
-			<Drawer variant="permanent" open={open}>
-				<DrawerHeader>
-					<IconButton onClick={handleDrawerClose}>
-						{theme.direction === "rtl" ? (
-							<ChevronRightIcon />
-						) : (
-							<ChevronLeftIcon />
-						)}
-					</IconButton>
-				</DrawerHeader>
-				<Divider />
-				<List>
-					{["Inbox", "Starred", "Send email", "Drafts"].map(
-						(text, index) => (
-							<ListItem
-								key={text}
-								disablePadding
-								sx={{ display: "block" }}
-							>
-								<ListItemButton
-									sx={{
-										minHeight: 48,
-										justifyContent: open
-											? "initial"
-											: "center",
-										px: 2.5,
-									}}
-								>
-									<ListItemIcon
-										sx={{
-											minWidth: 0,
-											mr: open ? 3 : "auto",
-											justifyContent: "center",
-										}}
-									>
-										{index % 2 === 0 ? (
-											<InboxIcon />
-										) : (
-											<MailIcon />
-										)}
-									</ListItemIcon>
-									<ListItemText
-										primary={text}
-										sx={{ opacity: open ? 1 : 0 }}
-									/>
-								</ListItemButton>
-							</ListItem>
-						)
-					)}
-				</List>
-				<Divider />
-				<List>
-					{["All mail", "Trash", "Spam"].map((text, index) => (
-						<ListItem
-							key={text}
-							disablePadding
-							sx={{ display: "block" }}
-						>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open ? "initial" : "center",
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
-									sx={{
-										minWidth: 0,
-										mr: open ? 3 : "auto",
-										justifyContent: "center",
-									}}
-								>
-									{index % 2 === 0 ? (
-										<InboxIcon />
-									) : (
-										<MailIcon />
-									)}
-								</ListItemIcon>
-								<ListItemText
-									primary={text}
-									sx={{ opacity: open ? 1 : 0 }}
-								/>
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
-			</Drawer>
-			
-		</Box>
-	);
+      </AppBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <Toolbar />
+        <Divider />
+        <List>
+          {['Recepcao', 'Cozinha', 'Delivery'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <Link to= {text == 'Recepcao' ? '/' : (text == 'Cozinha' ? '/chef': '/delivery')}>
+                <ListItemIcon>
+                  {text == 'Recepcao' ? <LocalPhoneIcon/> : (text == 'Cozinha' ? <SoupKitchenIcon/> : <TwoWheelerIcon/>)}
+                </ListItemIcon>
+                </Link>
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+     
+    </Box>
+  );
 }
