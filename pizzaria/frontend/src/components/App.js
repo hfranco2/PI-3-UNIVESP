@@ -12,10 +12,12 @@ import {
 	Redirect,
 } from "react-router-dom";
 import { AuthProvider } from "../context/auth";
+import useAuth from "../hooks/useAuth";
 
 const Private = ({ Item }) => {
-	const signed = useAuth();
-	return signed > 0 ? <App /> : <Signin />;
+  const { signed } = useAuth();
+
+  return signed > 0 ? <Item /> : <Signin />;
 };
 export default class App extends Component {
 	constructor(props) {
@@ -26,7 +28,7 @@ export default class App extends Component {
 			<AuthProvider>
 				<Router>
 					<Routes>
-						<Route exact path="/" element={<RequestPage />} />
+						<Route exact path="/" element={<Private Item={RequestPage} />}/>
                         <Route exact path="/login" element={<Signin />} />
 					</Routes>
 				</Router>

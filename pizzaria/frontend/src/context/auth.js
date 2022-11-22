@@ -5,7 +5,9 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
-
+  let mock = localStorage.getItem("users_bd")
+  if(typeof(mock)!="array")
+localStorage.setItem("users_bd",JSON.stringify([{email:"teste@gmail.com",password:"123"}]))
   useEffect(() => {
     const userToken = localStorage.getItem("user_token");
     const usersStorage = localStorage.getItem("users_bd");
