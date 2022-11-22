@@ -31,7 +31,7 @@ export default class App extends Component {
 					<Routes>
 						<Route exact path="/" element={<Private Item={RequestPage} />}/>
                         <Route exact path="/login" element={<Signin />} />
-						<Route path='/cozinha' element={<CozinhaPage />}/>
+						<Route path='/cozinha'  element={<Private Item={CozinhaPage} />}/>
 					</Routes>
 				</Router>
 			</AuthProvider>
