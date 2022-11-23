@@ -13,38 +13,69 @@ class Status(IntEnum):
     Entregue = 3
 
 class Produto(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True)
     codigo = models.CharField(max_length=35)
     nome = models.CharField(max_length=65)
     ingredientes = models.TextField()
     descricao = models.TextField()
     valor = models.DecimalField(max_digits=12, decimal_places=2)
 
+    def publish(self):
+        self.save()
+
+    def __str__(self):
+        return self.nome
+
 class MetodosPagamento(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True)
     descricao = models.TextField()
 
+    def publish(self):
+        self.save()
+
+    def __str__(self):
+        return self.descricao
+
 class Pedido(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True)
     codigo = models.CharField(max_length=35)
     pago = models.BooleanField()
-    valorTotal = models.DecimalField(max_digits=12, decimal_places=2)
+    
     metodoPagamento = models.ForeignKey(
-        MetodosPagamento, on_delete=models.DO_NOTHING
+        MetodosPagamento, on_delete=models.RESTRICT
     )
-    nomeCliente = models.CharField(max_length=65)
+    nomeCliente = models.CharField('Nome do Cliente',max_length=65)
     telefone = models.CharField(max_length=35)
     endereco = models.CharField(max_length=255)
     horarioPedido = models.DateTimeField()
-    status = models.IntegerField(max_length=35, choices= choices(Status))
+    statusPedido = models.IntegerField(choices= choices(Status))
     observacao = models.TextField()
     entrega = models.BooleanField()
 
+    @property
+    def valorTotal(self):
+        self.itensList = ItemPedido.objects.filter(pedido = self)
+        self.valorTotal = 0
+        for item in self.itensList:
+            self.valorTotal += item.quantidade * item.produto.valor
+
+    def publish(self):
+        self.save()
+
+    def __str__(self):
+        return self.nomeCliente + '|' + self.horarioPedido.date
+
 class ItemPedido(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True)
     codigo = models.CharField(max_length=35)
     quantidade = models.DecimalField(max_digits=8, decimal_places=1)
     observacao = models.TextField()
-    produto = models.ForeignKey(Produto, on_delete=models.DO_NOTHING)
-    pedido = models.ForeignKey(Pedido, on_delete=models.DO_NOTHING)
+    produto = models.ForeignKey(Produto, on_delete=models.RESTRICT)
+    pedido = models.ForeignKey(Pedido, on_delete=models.RESTRICT)
+
+    def publish(self):
+        self.save()
+
+    def __str__(self):
+        return self.produto + '|'+ self.pedido
 
