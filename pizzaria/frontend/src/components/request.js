@@ -20,8 +20,19 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
+import Autocomplete from '@mui/material/Autocomplete';
+
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import IconButton from '@mui/material/IconButton';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 //Custom Components
 import MiniDrawer from "./MiniDrawer";
+import { List } from "@mui/material";
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -247,40 +258,47 @@ const rows = [
   }
 ];
 
-const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
-  const { onChange, ...other } = props;
-  return (
-    <IMaskInput
-      {...other}
-      mask="(00) 00000-0000"
-      definitions={{
-        "#": /[1-9]/,
-      }}
-      inputRef={ref}
-      placeholder="0000000000"
-      label="0000000000"
-      onAccept={(value) => onChange({ target: { name: props.name, value } })}
-      overwrite
-    />
-  );
-});
+const produtos = [
+  { label: 'Coca-Cola 2L', id: 1 },
+  { label: 'Coca-Cola 600ml', id: 1 },
+  { label: 'Pizza Calabresa', id: 1 },
+  { label: 'Pizza Frango', id: 1 },
+  
+];
+// const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
+//   const { onChange, ...other } = props;
+//   return (
+//     <IMaskInput
+//       {...other}
+//       mask="(00) 00000-0000"
+//       definitions={{
+//         "#": /[1-9]/,
+//       }}
+//       inputRef={ref}
+//       placeholder="0000000000"
+//       label="0000000000"
+//       onAccept={(value) => onChange({ target: { name: props.name, value } })}
+//       overwrite
+//     />
+//   );
+// });
 
-TextMaskCustom.propTypes = {
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+// TextMaskCustom.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   onChange: PropTypes.func.isRequired,
+// };
 
 export default function RequestPage() {
   const [values, setValues] = React.useState({
     textmask: "(XX) XXXXX-XXXX",
     numberformat: "1320",
   });
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+  // const handleChange = (event) => {
+  //   setValues({
+  //     ...values,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
   const [open, setOpen] = React.useState(false);
     const [name, setName] = React.useState();
 
@@ -316,28 +334,104 @@ export default function RequestPage() {
       <MiniDrawer />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Grid container 
-			direction="row"
-			justifyContent="flex-start"
-			alignItems="center">
-			<Grid item>
-				<Search>
-					<SearchIconWrapper>
-						<SearchIcon />
-					</SearchIconWrapper>
-					<StyledInputBase
-						onChange={onSearchChanged}
-						placeholder="Busque o pedido"
-						inputProps={{ "aria-label": "search" }}
-					/>
-				</Search>
-			</Grid>
-			<Grid item >
-				<Button variant="contained" startIcon={<AddIcon/>} onClick={handleClickOpen}>Novo Pedido</Button>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Novo Pedido</DialogTitle>
-                <DialogContent>
-                    <FormControl variant="standard">
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          <Grid item>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                onChange={onSearchChanged}
+                placeholder="Busque o pedido"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={handleClickOpen}
+            >
+              Novo Pedido
+            </Button>
+            <Dialog
+              fullWidth={true}
+              maxWidth="xl"
+              open={open}
+              onClose={handleClose}
+            >
+              <DialogTitle>Novo Pedido</DialogTitle>
+              <DialogContent>
+                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                  <div>
+                    <TextField
+                      label="Nome do Cliente"
+                      id="outlined-start-adornment"
+                      sx={{ m: 1, width: "25ch" }}
+                    />
+                    <TextField
+                      label="Telefone"
+                      id="outlined-start-adornment"
+                      sx={{ m: 1, width: "25ch" }}
+                    />
+                     <TextField
+                      label="Horário do Pedido"
+                      id="outlined-start-adornment"
+                      sx={{ m: 1, width: "25ch" }}
+                    />
+
+
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                      <InputLabel htmlFor="outlined-adornment-amount">
+                       Endereço
+                      </InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-amount"
+                        value={values.amount}
+                        label="Amount"
+                      />
+                    </FormControl>
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={produtos}
+                      sx={{ m: 1, width: "25ch" }}
+                      renderInput={(params) => <TextField {...params} label="Item" />}
+                    />
+                    <List sx={{ m: 1 }}>
+                    {["Coca-Cola 2L","Pizza Calabresa","Pizza Frango"].map((value) => {
+        const labelId = `checkbox-list-label-${value}`;
+
+        return (
+          <ListItem
+          key={value}>
+             <ListItemText id={labelId} primary={`${value}`} />
+          </ListItem>
+          );
+        })}
+
+                    </List>
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                      <InputLabel htmlFor="outlined-adornment-amount">
+                       Observações
+                      </InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-amount"
+                        value={values.amount}
+                        label="Amount"
+                      />
+                    </FormControl>
+                    
+                  </div>
+                </Box>
+
+                {/* <FormControl variant="standard">
                         <InputLabel htmlFor="component-simple">Nome</InputLabel>
                         <Input id="component-simple" value={name} onChange={handleChange} />
                     </FormControl>  
@@ -363,16 +457,16 @@ export default function RequestPage() {
                             placeholder="Busque o item"
                             inputProps={{ "aria-label": "search" }}
                         />
-                    </Search>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
-                </DialogActions>
+                    </Search> */}
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancelar</Button>
+                <Button onClick={handleClose}>Salvar</Button>
+              </DialogActions>
             </Dialog>
-			</Grid>
-		</Grid>
-        <br/>
+          </Grid>
+        </Grid>
+        <br />
 
         <Box sx={{ height: 400, width: "100%" }}>
           <DataGrid
@@ -422,18 +516,18 @@ export default function RequestPage() {
               columnsPanelShowAllButton: "Mostrar todos",
               columnsPanelHideAllButton: "Esconder todos",
               footerRowSelected: (count) =>
-              count !== 1
-                ? `${count.toLocaleString()} linhas selecionadas`
-                : `${count.toLocaleString()} linha selecionada`,
+                count !== 1
+                  ? `${count.toLocaleString()} linhas selecionadas`
+                  : `${count.toLocaleString()} linha selecionada`,
             }}
             initialState={{
-                columns: {
-                  columnVisibilityModel: {
-                    // Columns to be hide
-                    endereco:false
-                  },
+              columns: {
+                columnVisibilityModel: {
+                  // Columns to be hide
+                  endereco: false,
                 },
-              }}
+              },
+            }}
             rowsPerPageOptions={[5]}
             checkboxSelection
             disableSelectionOnClick
