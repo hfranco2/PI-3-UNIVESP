@@ -12,7 +12,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { DataGrid } from "@mui/x-data-grid";
 import AddIcon from '@mui/icons-material/Add';
-
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 //Custom Components
 import MiniDrawer from "./MiniDrawer";
 
@@ -274,7 +281,18 @@ export default function RequestPage() {
       [event.target.name]: event.target.value,
     });
   };
+  const [open, setOpen] = React.useState(false);
+    const [name, setName] = React.useState();
 
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   
   const [filteredList, setFilteredList] = React.useState(rows);
 
@@ -315,7 +333,43 @@ export default function RequestPage() {
 				</Search>
 			</Grid>
 			<Grid item >
-				<Button variant="contained" startIcon={<AddIcon/>}>Novo Pedido</Button>
+				<Button variant="contained" startIcon={<AddIcon/>} onClick={handleClickOpen}>Novo Pedido</Button>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Novo Pedido</DialogTitle>
+                <DialogContent>
+                    <FormControl variant="standard">
+                        <InputLabel htmlFor="component-simple">Nome</InputLabel>
+                        <Input id="component-simple" value={name} onChange={handleChange} />
+                    </FormControl>  
+                     <FormControl variant="standard">
+                        <InputLabel htmlFor="component-simple">Nome</InputLabel>
+                        <Input id="component-simple" value={name} onChange={handleChange} />
+                    </FormControl>  
+                    <br></br>
+                     <FormControl variant="standard">
+                        <InputLabel htmlFor="component-simple">Nome</InputLabel>
+                        <Input id="component-simple" value={name} onChange={handleChange} />
+                    </FormControl>  
+                     <FormControl variant="standard">
+                        <InputLabel htmlFor="component-simple">Nome</InputLabel>
+                        <Input id="component-simple" value={name} onChange={handleChange} />
+                    </FormControl>  
+                    <Search>
+                        <SearchIconWrapper>
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            onChange={onSearchChanged}
+                            placeholder="Busque o item"
+                            inputProps={{ "aria-label": "search" }}
+                        />
+                    </Search>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose}>Subscribe</Button>
+                </DialogActions>
+            </Dialog>
 			</Grid>
 		</Grid>
         <br/>
