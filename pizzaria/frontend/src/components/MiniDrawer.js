@@ -102,7 +102,7 @@ export default function PermanentDrawerLeft() {
                        >
 
 
-					<Search>
+					{/* <Search>
 						<SearchIconWrapper>
 							<SearchIcon />
 						</SearchIconWrapper>
@@ -110,7 +110,7 @@ export default function PermanentDrawerLeft() {
 							placeholder="Busque o Produto"
 							inputProps={{ "aria-label": "search" }}
 						/>
-					</Search>
+					</Search> */}
 					<Box sx={{ flexGrow: 1 }} />
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
 						
