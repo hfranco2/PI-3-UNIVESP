@@ -34,7 +34,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import MiniDrawer from "./MiniDrawer";
 import { List } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
- import {useState} from 'react'
+ import {useState, useEffect} from 'react'
+import EditIcon from '@mui/icons-material/Edit';
+import { FormControlLabel } from '@mui/material';
+
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
@@ -84,7 +87,28 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
+const RequestEdit = ({ index }) => {
 
+    const handleEditClick = () => {
+    
+    }
+
+    const handleDelete= ()=>{
+
+    }
+    return <FormControlLabel
+                control={
+                    <div>
+                        <IconButton color="primary" onClick={handleEditClick} >
+                            <EditIcon style={{ color: "#000000"}} />
+                        </IconButton>
+                            <IconButton color="primary" onClick={handleDelete} >
+                             <DeleteIcon style={{ color: "#000000"}}  />
+                        </IconButton>                       
+                    </div>
+                }
+            />
+};
 const columns = [
   { field: "id", headerName: "Código", width: 90 },
   {
@@ -150,6 +174,20 @@ const columns = [
     type: 'boolean',
     editable: false,
   },
+{
+    field: "actions",
+    headerName: "Actions",
+    sortable: false,
+    width: 140,
+    disableClickEventBubbling: true,
+    renderCell: (params) => {
+        return (
+            <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }}>
+                <RequestEdit index={params.row.id} />
+                </div>
+        );
+        }
+}
 ];
 
 const rows = [
@@ -164,7 +202,8 @@ const rows = [
     valorTotal: 80,
     metodoPagamento: "cartão",
     observacoes: "",
-    entrega: true
+    entrega: true,
+    actions:""
   },
   {
     id: 2,
@@ -305,6 +344,7 @@ export default function RequestPage() {
 
 
 
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -331,11 +371,7 @@ export default function RequestPage() {
 
  const [itemsArray, setCount] = useState(["Coca-Cola 2L","Pizza Calabresa","Pizza Frango"]);
 const removeItem= (event, value)=>{
-    setCount(itemsArray.filter(e => e!== value)) 
-    
-    console.log(itemsArray)
-    console.log(value)
-}
+    setCount(itemsArray.filter(e => e!== value))}
   return (
     <Box sx={{ display: "flex" }}>
       <MiniDrawer />
@@ -439,34 +475,7 @@ const removeItem= (event, value)=>{
                     
                   </div>
                 </Box>
-
-                {/* <FormControl variant="standard">
-                        <InputLabel htmlFor="component-simple">Nome</InputLabel>
-                        <Input id="component-simple" value={name} onChange={handleChange} />
-                    </FormControl>  
-                     <FormControl variant="standard">
-                        <InputLabel htmlFor="component-simple">Nome</InputLabel>
-                        <Input id="component-simple" value={name} onChange={handleChange} />
-                    </FormControl>  
-                    <br></br>
-                     <FormControl variant="standard">
-                        <InputLabel htmlFor="component-simple">Nome</InputLabel>
-                        <Input id="component-simple" value={name} onChange={handleChange} />
-                    </FormControl>  
-                     <FormControl variant="standard">
-                        <InputLabel htmlFor="component-simple">Nome</InputLabel>
-                        <Input id="component-simple" value={name} onChange={handleChange} />
-                    </FormControl>  
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            onChange={onSearchChanged}
-                            placeholder="Busque o item"
-                            inputProps={{ "aria-label": "search" }}
-                        />
-                    </Search> */}
+           
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancelar</Button>
