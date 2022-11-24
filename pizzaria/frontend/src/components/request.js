@@ -33,7 +33,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 //Custom Components
 import MiniDrawer from "./MiniDrawer";
 import { List } from "@mui/material";
-
+import DeleteIcon from '@mui/icons-material/Delete';
+ import {useState} from 'react'
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
@@ -328,7 +329,13 @@ export default function RequestPage() {
 	);
   }
 
-
+ const [itemsArray, setCount] = useState(["Coca-Cola 2L","Pizza Calabresa","Pizza Frango"]);
+const removeItem= (event, value)=>{
+    setCount(itemsArray.filter(e => e!== value)) 
+    
+    console.log(itemsArray)
+    console.log(value)
+}
   return (
     <Box sx={{ display: "flex" }}>
       <MiniDrawer />
@@ -405,14 +412,16 @@ export default function RequestPage() {
                       renderInput={(params) => <TextField {...params} label="Item" />}
                     />
                     <List sx={{ m: 1 }}>
-                    {["Coca-Cola 2L","Pizza Calabresa","Pizza Frango"].map((value) => {
+                    {itemsArray.map((value) => {
         const labelId = `checkbox-list-label-${value}`;
 
         return (
-          <ListItem
-          key={value}>
+        <ListItem
+          key={value}
+          sx={{ maxWidth: "200px" }}>
              <ListItemText id={labelId} primary={`${value}`} />
-          </ListItem>
+            <DeleteIcon sx={{ cursor:"pointer" }} onClick={event => removeItem(event,`${value}`)} />          
+        </ListItem>
           );
         })}
 
