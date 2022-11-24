@@ -87,10 +87,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 }));
-const RequestEdit = ({ index }) => {
-	const handleEditClick = () => {};
 
-	const handleDelete = () => {};
+
+export default function RequestPage() {
+    const RequestEdit = ({ index }) => {
+	const handleEditClick = () => {
+        console.log(index)
+        handleClickOpen()
+    };
+
+	const handleDelete = () => {
+              console.log(index)
+    };
 	return (
 		<FormControlLabel
 			control={
@@ -106,8 +114,6 @@ const RequestEdit = ({ index }) => {
 		/>
 	);
 };
-
-export default function RequestPage() {
 	const [values, setValues] = React.useState({
 		textmask: "(XX) XXXXX-XXXX",
 		numberformat: "1320",
@@ -189,7 +195,7 @@ export default function RequestPage() {
 						className="d-flex justify-content-between align-items-center"
 						style={{ cursor: "pointer" }}
 					>
-						<RequestEdit index={params.row.id} />
+						<RequestEdit index={params.row} />
 					</div>
 				);
 			},
@@ -308,9 +314,10 @@ export default function RequestPage() {
 		{ label: "Pizza Calabresa", id: 1 },
 		{ label: "Pizza Frango", id: 1 },
 	]);
+    const model = require('../entities/model')
 	const [open, setOpen] = React.useState(false);
 	const [name, setName] = React.useState();
-
+    const [pedido, setPedido] = React.useState(new model)
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
