@@ -93,6 +93,7 @@ export default function RequestPage() {
     const RequestEdit = ({ index }) => {
 	const handleEditClick = () => {
         console.log(index)
+        console.log(pedido)
         handleClickOpen()
     };
 
