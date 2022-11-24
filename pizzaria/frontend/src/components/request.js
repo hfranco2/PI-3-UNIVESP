@@ -106,238 +106,208 @@ const RequestEdit = ({ index }) => {
 		/>
 	);
 };
-const columns = [
-	{ field: "id", headerName: "Código", width: 90 },
-	{
-		field: "nomeDoCliente",
-		headerName: "Nome do Cliente",
-		width: 150,
-		editable: false,
-	},
-	{
-		field: "status",
-		headerName: "Status",
-		type: "singleSelect",
-		valueOptions: ["Criado", "Efetuado", "Retirado"],
-	},
-	{
-		field: "endereco",
-		headerName: "Endereço",
-		width: 300,
-		editable: false,
-	},
-	{
-		field: "telefone",
-		headerName: "Telefone",
-		type: "number",
-		width: 120,
-		editable: false,
-	},
-	{
-		field: "hora",
-		headerName: "Horário do Pedido",
-		width: 100,
-		editable: false,
-	},
-	{
-		field: "pago",
-		headerName: "Pedido Pago",
-		type: "boolean",
-		width: 150,
-		editable: false,
-	},
-	{
-		field: "valorTotal",
-		headerName: "Valor Total",
-		type: "number",
-		width: 110,
-		editable: false,
-	},
-	{
-		field: "metodoPagamento",
-		headerName: "Método Pagamento",
-		width: 110,
-	},
-	{
-		field: "observacoes",
-		headerName: "Observações",
-		width: 100,
-		editable: false,
-	},
-	{
-		field: "entrega",
-		headerName: "Necessita Entrega",
-		width: "100",
-		type: "boolean",
-		editable: false,
-	},
-	{
-		field: "actions",
-		headerName: "Ações",
-		sortable: false,
-		width: 140,
-		disableClickEventBubbling: true,
-		renderCell: (params) => {
-			return (
-				<div
-					className="d-flex justify-content-between align-items-center"
-					style={{ cursor: "pointer" }}
-				>
-					<RequestEdit index={params.row.id} />
-				</div>
-			);
-		},
-	},
-];
-
-const rows = [
-	{
-		id: 1,
-		nomeDoCliente: "Geraldo da Silva",
-		status: "Criado",
-		endereco: "Rua dos bobos, 0",
-		telefone: "19963521478",
-		hora: "12:00",
-		pago: true,
-		valorTotal: 80,
-		metodoPagamento: "cartão",
-		observacoes: "",
-		entrega: true,
-		actions: "",
-	},
-	{
-		id: 2,
-		nomeDoCliente: "Geraldo da Silva",
-		status: "Criado",
-		endereco: "Rua dos bobos, 0",
-		telefone: "19963521478",
-		hora: "12:00",
-		pago: true,
-		valorTotal: 80,
-		metodoPagamento: "cartão",
-		observacoes: "",
-		entrega: true,
-	},
-	{
-		id: 3,
-		nomeDoCliente: "Geraldo da Silva",
-		status: "Criado",
-		endereco: "Rua dos bobos, 0",
-		telefone: "19963521478",
-		hora: "12:00",
-		pago: true,
-		valorTotal: 80,
-		metodoPagamento: "cartão",
-		observacoes: "",
-		entrega: true,
-	},
-	{
-		id: 4,
-		nomeDoCliente: "Geraldo da Silva",
-		status: "Criado",
-		endereco: "Rua dos bobos, 0",
-		telefone: "19963521478",
-		hora: "12:00",
-		pago: true,
-		valorTotal: 80,
-		metodoPagamento: "cartão",
-		observacoes: "",
-		entrega: true,
-	},
-	{
-		id: 5,
-		nomeDoCliente: "Ronaldinho Gaucho",
-		status: "Criado",
-		endereco: "Rua dos bobos, 0",
-		telefone: "19963521478",
-		hora: "12:00",
-		pago: true,
-		valorTotal: 80,
-		metodoPagamento: "cartão",
-		observacoes: "",
-		entrega: true,
-	},
-	{
-		id: 6,
-		nomeDoCliente: "Geraldino",
-		status: "Criado",
-		endereco: "Rua dos bobos, 0",
-		telefone: "19963521478",
-		hora: "12:00",
-		pago: true,
-		valorTotal: 80,
-		metodoPagamento: "cartão",
-		observacoes: "",
-		entrega: true,
-	},
-	{
-		id: 7,
-		nomeDoCliente: "Silviscleiton",
-		status: "Criado",
-		endereco: "Rua dos bobos, 0",
-		telefone: "19963521485",
-		hora: "12:00",
-		pago: true,
-		valorTotal: 80,
-		metodoPagamento: "cartão",
-		observacoes: "",
-		entrega: true,
-	},
-	{
-		id: 8,
-		nomeDoCliente: "Geraldo da Silva",
-		status: "Criado",
-		endereco: "Rua dos bobos, 0",
-		telefone: "19963521478",
-		hora: "12:00",
-		pago: true,
-		valorTotal: 80,
-		metodoPagamento: "cartão",
-		observacoes: "",
-		entrega: true,
-	},
-];
-
-const produtos = [
-	{ label: "Coca-Cola 2L", id: 1 },
-	{ label: "Coca-Cola 600ml", id: 1 },
-	{ label: "Pizza Calabresa", id: 1 },
-	{ label: "Pizza Frango", id: 1 },
-];
-// const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
-//   const { onChange, ...other } = props;
-//   return (
-//     <IMaskInput
-//       {...other}
-//       mask="(00) 00000-0000"
-//       definitions={{
-//         "#": /[1-9]/,
-//       }}
-//       inputRef={ref}
-//       placeholder="0000000000"
-//       label="0000000000"
-//       onAccept={(value) => onChange({ target: { name: props.name, value } })}
-//       overwrite
-//     />
-//   );
-// });
-
-// TextMaskCustom.propTypes = {
-//   name: PropTypes.string.isRequired,
-//   onChange: PropTypes.func.isRequired,
-// };
 
 export default function RequestPage() {
 	const [values, setValues] = React.useState({
 		textmask: "(XX) XXXXX-XXXX",
 		numberformat: "1320",
 	});
-	// const handleChange = (event) => {
-	//   setValues({
-	//     ...values,
-	//     [event.target.name]: event.target.value,
-	//   });
-	// };
+	const [columns, setColumns] = React.useState([
+		{ field: "id", headerName: "Código", width: 90 },
+		{
+			field: "nomeDoCliente",
+			headerName: "Nome do Cliente",
+			width: 150,
+			editable: false,
+		},
+		{
+			field: "status",
+			headerName: "Status",
+			type: "singleSelect",
+			valueOptions: ["Criado", "Efetuado", "Retirado"],
+		},
+		{
+			field: "endereco",
+			headerName: "Endereço",
+			width: 300,
+			editable: false,
+		},
+		{
+			field: "telefone",
+			headerName: "Telefone",
+			type: "number",
+			width: 120,
+			editable: false,
+		},
+		{
+			field: "hora",
+			headerName: "Horário do Pedido",
+			width: 100,
+			editable: false,
+		},
+		{
+			field: "pago",
+			headerName: "Pedido Pago",
+			type: "boolean",
+			width: 150,
+			editable: false,
+		},
+		{
+			field: "valorTotal",
+			headerName: "Valor Total",
+			type: "number",
+			width: 110,
+			editable: false,
+		},
+		{
+			field: "metodoPagamento",
+			headerName: "Método Pagamento",
+			width: 110,
+		},
+		{
+			field: "observacoes",
+			headerName: "Observações",
+			width: 100,
+			editable: false,
+		},
+		{
+			field: "entrega",
+			headerName: "Necessita Entrega",
+			width: "100",
+			type: "boolean",
+			editable: false,
+		},
+		{
+			field: "actions",
+			headerName: "Ações",
+			sortable: false,
+			width: 140,
+			disableClickEventBubbling: true,
+			renderCell: (params) => {
+				return (
+					<div
+						className="d-flex justify-content-between align-items-center"
+						style={{ cursor: "pointer" }}
+					>
+						<RequestEdit index={params.row.id} />
+					</div>
+				);
+			},
+		},
+	]);
+	const [rows, setRows] = React.useState([
+		{
+			id: 1,
+			nomeDoCliente: "Geraldo da Silva",
+			status: "Criado",
+			endereco: "Rua dos bobos, 0",
+			telefone: "19963521478",
+			hora: "12:00",
+			pago: true,
+			valorTotal: 80,
+			metodoPagamento: "cartão",
+			observacoes: "",
+			entrega: true,
+			actions: "",
+		},
+		{
+			id: 2,
+			nomeDoCliente: "Geraldo da Silva",
+			status: "Criado",
+			endereco: "Rua dos bobos, 0",
+			telefone: "19963521478",
+			hora: "12:00",
+			pago: true,
+			valorTotal: 80,
+			metodoPagamento: "cartão",
+			observacoes: "",
+			entrega: true,
+		},
+		{
+			id: 3,
+			nomeDoCliente: "Geraldo da Silva",
+			status: "Criado",
+			endereco: "Rua dos bobos, 0",
+			telefone: "19963521478",
+			hora: "12:00",
+			pago: true,
+			valorTotal: 80,
+			metodoPagamento: "cartão",
+			observacoes: "",
+			entrega: true,
+		},
+		{
+			id: 4,
+			nomeDoCliente: "Geraldo da Silva",
+			status: "Criado",
+			endereco: "Rua dos bobos, 0",
+			telefone: "19963521478",
+			hora: "12:00",
+			pago: true,
+			valorTotal: 80,
+			metodoPagamento: "cartão",
+			observacoes: "",
+			entrega: true,
+		},
+		{
+			id: 5,
+			nomeDoCliente: "Ronaldinho Gaucho",
+			status: "Criado",
+			endereco: "Rua dos bobos, 0",
+			telefone: "19963521478",
+			hora: "12:00",
+			pago: true,
+			valorTotal: 80,
+			metodoPagamento: "cartão",
+			observacoes: "",
+			entrega: true,
+		},
+		{
+			id: 6,
+			nomeDoCliente: "Geraldino",
+			status: "Criado",
+			endereco: "Rua dos bobos, 0",
+			telefone: "19963521478",
+			hora: "12:00",
+			pago: true,
+			valorTotal: 80,
+			metodoPagamento: "cartão",
+			observacoes: "",
+			entrega: true,
+		},
+		{
+			id: 7,
+			nomeDoCliente: "Silviscleiton",
+			status: "Criado",
+			endereco: "Rua dos bobos, 0",
+			telefone: "19963521485",
+			hora: "12:00",
+			pago: true,
+			valorTotal: 80,
+			metodoPagamento: "cartão",
+			observacoes: "",
+			entrega: true,
+		},
+		{
+			id: 8,
+			nomeDoCliente: "Geraldo da Silva",
+			status: "Criado",
+			endereco: "Rua dos bobos, 0",
+			telefone: "19963521478",
+			hora: "12:00",
+			pago: true,
+			valorTotal: 80,
+			metodoPagamento: "cartão",
+			observacoes: "",
+			entrega: true,
+		},
+	]);
+	const [produtos, setProdutos] = React.useState([
+		{ label: "Coca-Cola 2L", id: 1 },
+		{ label: "Coca-Cola 600ml", id: 1 },
+		{ label: "Pizza Calabresa", id: 1 },
+		{ label: "Pizza Frango", id: 1 },
+	]);
 	const [open, setOpen] = React.useState(false);
 	const [name, setName] = React.useState();
 
