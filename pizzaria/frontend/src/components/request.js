@@ -92,9 +92,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function RequestPage() {
     const RequestEdit = ({ index }) => {
 	const handleEditClick = () => {
-        console.log(index)
-        console.log(pedido)
-        handleClickOpen()
+      
+        handleClickOpen(index)
     };
 
 	const handleDelete = () => {
@@ -319,7 +318,12 @@ export default function RequestPage() {
 	const [open, setOpen] = React.useState(false);
 	const [name, setName] = React.useState();
     const [pedido, setPedido] = React.useState(new model)
-	const handleClickOpen = () => {
+
+	const handleClickOpen = ( i) => {
+ 
+
+        setPedido(new model(i.id,i.nomeDoCliente,i.telefone,i.hora,i.endereco,i.nomeDoCliente,i.observacoes,i.pago,i.entrega))
+       console.log(pedido)
 		setOpen(true);
 	};
 
@@ -396,16 +400,19 @@ export default function RequestPage() {
 											label="Nome do Cliente"
 											id="outlined-start-adornment"
 											sx={{ m: 1, width: "25ch" }}
+                                            value={pedido.name}
 										/>
 										<TextField
 											label="Telefone"
 											id="outlined-start-adornment"
 											sx={{ m: 1, width: "25ch" }}
+                                            value={pedido.phone}
 										/>
 										<TextField
 											label="Horário do Pedido"
 											id="outlined-start-adornment"
 											sx={{ m: 1, width: "25ch" }}
+                                            value={pedido.time}
 										/>
 
 										<FormControl fullWidth sx={{ m: 1 }}>
@@ -414,7 +421,7 @@ export default function RequestPage() {
 											</InputLabel>
 											<OutlinedInput
 												id="outlined-adornment-amount"
-												value={values.amount}
+												value={pedido.address}
 												label="Amount"
 											/>
 										</FormControl>
@@ -423,6 +430,7 @@ export default function RequestPage() {
 											id="combo-box-demo"
 											options={produtos}
 											sx={{ m: 1, width: "25ch" }}
+                                              value={pedido.itemList} 
 											renderInput={(params) => (
 												<TextField
 													{...params}
@@ -466,7 +474,7 @@ export default function RequestPage() {
 											</InputLabel>
 											<OutlinedInput
 												id="outlined-adornment-amount"
-												value={values.amount}
+												value={pedido.amount}
 												label="Amount"
 											/>
 										</FormControl>
