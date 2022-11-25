@@ -406,8 +406,11 @@ export default function RequestPage() {
             >
               <DialogTitle>Novo Pedido</DialogTitle>
               <DialogContent>
-                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                  <div>
+                <Box component="form"
+					sx={{
+						'& .MuiTextField-root': { m: 1, width: '25ch' },
+					}}>
+                  <div>	
                     <TextField
                       label="Nome do Cliente"
                       id="outlined-start-adornment"
