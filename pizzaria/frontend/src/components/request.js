@@ -379,7 +379,7 @@ export default function RequestPage() {
         <Grid
           container
           direction="row"
-          justifyContent="flex-start"
+          justifyContent="flex-staFrt"
           alignItems="center"
         >
           <Grid item>
@@ -440,7 +440,7 @@ export default function RequestPage() {
                       </InputLabel>
                       <OutlinedInput
                         id="outlined-adornment-amount"
-                        alue={pedido.address}
+                        value={pedido.address}
                         label="Amount"
                       />
                     </FormControl>
