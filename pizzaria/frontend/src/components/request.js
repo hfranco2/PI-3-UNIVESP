@@ -21,7 +21,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import Autocomplete from "@mui/material/Autocomplete";
+import Divider from '@mui/material/Divider';
 
+import Typography from '@mui/material/Typography';
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
@@ -343,94 +345,165 @@ export default function RequestPage() {
 		);
 	};
 
-	const [itemsArray, setCount] = useState([
-		"Coca-Cola 2L",
-		"Pizza Calabresa",
-		"Pizza Frango",
+	const [itemsArray, setItemsArray] = useState([
+		{
+      label: "Coca-Cola 2L",
+      id: 1,
+      quantity:1
+    },
+    {
+      label: "Pizza Calabresa",
+      id: 2,
+      quantity:2
+    },
+    {
+      label: "Pizza Frango",
+      id: 3,
+      quantity:1
+    },
 	]);
+
+
 	const removeItem = (event, value) => {
-		setCount(itemsArray.filter((e) => e !== value));
+		setItemsArray(itemsArray.filter((e) => e !== value));
 	};
 	return (
-		<Box sx={{ display: "flex" }}>
-			<MiniDrawer />
-			<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-				<DrawerHeader />
-				<Grid
-					container
-					direction="row"
-					justifyContent="flex-start"
-					alignItems="center"
-				>
-					<Grid item>
-						<Search>
-							<SearchIconWrapper>
-								<SearchIcon />
-							</SearchIconWrapper>
-							<StyledInputBase
-								onChange={onSearchChanged}
-								placeholder="Busque o pedido"
-								inputProps={{ "aria-label": "search" }}
-							/>
-						</Search>
-					</Grid>
-					<Grid item>
-						<Button
-							variant="contained"
-							startIcon={<AddIcon />}
-							onClick={handleClickOpen}
-						>
-							Novo Pedido
-						</Button>
-						<Dialog
-							fullWidth={true}
-							maxWidth="xl"
-							open={open}
-							onClose={handleClose}
-						>
-							<DialogTitle>Novo Pedido</DialogTitle>
-							<DialogContent>
-								<Box sx={{ display: "flex", flexWrap: "wrap" }}>
-									<div>
-										<TextField
-											label="Nome do Cliente"
-											id="outlined-start-adornment"
-											sx={{ m: 1, width: "25ch" }}
-										/>
-										<TextField
-											label="Telefone"
-											id="outlined-start-adornment"
-											sx={{ m: 1, width: "25ch" }}
-										/>
-										<TextField
-											label="Horário do Pedido"
-											id="outlined-start-adornment"
-											sx={{ m: 1, width: "25ch" }}
-										/>
+    <Box sx={{ display: "flex" }}>
+      <MiniDrawer />
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          <Grid item>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                onChange={onSearchChanged}
+                placeholder="Busque o pedido"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={handleClickOpen}
+            >
+              Novo Pedido
+            </Button>
+            <Dialog
+              fullWidth={true}
+              maxWidth="xl"
+              open={open}
+              onClose={handleClose}
+            >
+              <DialogTitle>Novo Pedido</DialogTitle>
+              <DialogContent>
+                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                  <div>
+                    <TextField
+                      label="Nome do Cliente"
+                      id="outlined-start-adornment"
+                      sx={{ m: 1, width: "25ch" }}
+                    />
+                    <TextField
+                      label="Telefone"
+                      id="outlined-start-adornment"
+                      sx={{ m: 1, width: "25ch" }}
+                    />
+                    <TextField
+                      label="Horário do Pedido"
+                      id="outlined-start-adornment"
+                      sx={{ m: 1, width: "25ch" }}
+                    />
 
-										<FormControl fullWidth sx={{ m: 1 }}>
-											<InputLabel htmlFor="outlined-adornment-amount">
-												Endereço
-											</InputLabel>
-											<OutlinedInput
-												id="outlined-adornment-amount"
-												value={values.amount}
-												label="Amount"
-											/>
-										</FormControl>
-										<Autocomplete
-											disablePortal
-											id="combo-box-demo"
-											options={produtos}
-											sx={{ m: 1, width: "25ch" }}
-											renderInput={(params) => (
-												<TextField
-													{...params}
-													label="Item"
-												/>
-											)}
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                      <InputLabel htmlFor="outlined-adornment-amount">
+                        Endereço
+                      </InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-amount"
+                        value={values.amount}
+                        label="Amount"
+                      />
+                    </FormControl>
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={produtos}
+                      sx={{ m: 1, width: "25ch" }}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Item" />
+                      )}
+                    />
+                    <Box sx={{ m: 1, width: "75ch", borderColor: 'primary.main', border: 3, borderTop: 0, borderRadius: 1, p:1 }}>
+                      <Grid
+                          container
+                          direction="column"
+                          justifyContent="center"
+                          alignItems="center"
+                          spacing={2}                        >
+                          {itemsArray.map((value) => {
+                            return (
+                              <Grid item key={value.id}>
+                                <Grid
+                                  container
+                                  direction="row"
+                                  justifyContent="flex-start"
+                                  spacing={2}
+                                  alignItems="center"
+                                >
+                                  <Grid item>
+                                    <Typography
+                                      variant="button"
+                                      display="block"
+                                      gutterBottom
+                                    >
+                                      {value.label}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <TextField
+                                      type="number"
+                                      name="quantity"
+                                      label="Quantidade"
+                                      variant="outlined"
+                                      sx={{
+                                        "& > :not(style)": { width: "20ch" },
+                                      }}
+                                    />
+                                  </Grid>
+                                  <Grid item>
+                                    <IconButton aria-label="delete">
+										<DeleteIcon
+											sx={{
+												cursor: "pointer",
+											}}
+											onClick={(event) =>
+												removeItem(
+														event,
+													`${value}`
+												)}
 										/>
-										<List sx={{ m: 1 }}>
+                                    </IconButton>
+                                  </Grid>
+                                </Grid>
+                                <Divider sx={{ m: 1 }} />
+                              </Grid>
+                            );
+                          })}
+                        </Grid>
+                    </Box>
+                     
+                    
+                    {/* <List sx={{ m: 1 }}>
 											{itemsArray.map((value) => {
 												const labelId = `checkbox-list-label-${value}`;
 
@@ -445,113 +518,100 @@ export default function RequestPage() {
 															id={labelId}
 															primary={`${value}`}
 														/>
-														<DeleteIcon
-															sx={{
-																cursor: "pointer",
-															}}
-															onClick={(event) =>
-																removeItem(
-																	event,
-																	`${value}`
-																)
-															}
-														/>
+														
 													</ListItem>
 												);
 											})}
-										</List>
-										<FormControl fullWidth sx={{ m: 1 }}>
-											<InputLabel htmlFor="outlined-adornment-amount">
-												Observações
-											</InputLabel>
-											<OutlinedInput
-												id="outlined-adornment-amount"
-												value={values.amount}
-												label="Amount"
-											/>
-										</FormControl>
-									</div>
-								</Box>
-							</DialogContent>
-							<DialogActions>
-								<Button onClick={handleClose}>Cancelar</Button>
-								<Button onClick={handleClose}>Salvar</Button>
-							</DialogActions>
-						</Dialog>
-					</Grid>
-				</Grid>
-				<br />
+										</List> */}
+                    <FormControl fullWidth sx={{ m: 1 }}>
+                      <InputLabel htmlFor="outlined-adornment-amount">
+                        Observações
+                      </InputLabel>
+                      <OutlinedInput
+                        id="outlined-adornment-amount"
+                        value={values.amount}
+                        label="Amount"
+                      />
+                    </FormControl>
+                  </div>
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancelar</Button>
+                <Button onClick={handleClose}>Salvar</Button>
+              </DialogActions>
+            </Dialog>
+          </Grid>
+        </Grid>
+        <br />
 
-				<Box sx={{ height: 400, width: "100%" }}>
-					<DataGrid
-						rows={filteredList}
-						columns={columns}
-						pageSize={5}
-						localeText={{
-							columnMenuLabel: "Menu",
-							columnMenuShowColumns: "Visualização de Colunas",
-							columnMenuFilter: "Filtrar",
-							columnMenuHideColumn: "Esconder",
-							columnMenuUnsort: "Desfazer Ordenação",
-							columnMenuSortAsc: "Ordenar Asc",
-							columnMenuSortDesc: "Ordenar Desc",
-							columnHeaderSortIconLabel: "Ordenar",
-							toolbarFiltersTooltipActive: (count) =>
-								count !== 1
-									? `${count} filtros`
-									: `${count} filtro`,
-							filterPanelAddFilter: "Adicionar Filtro",
-							filterPanelDeleteIconLabel: "Excluir",
-							filterPanelLinkOperator: "Operador Lógico",
-							filterPanelOperators: "Operador do Filtro", // TODO v6: rename to filterPanelOperator
-							filterPanelOperatorAnd: "E",
-							filterPanelOperatorOr: "OU",
-							filterPanelColumns: "Colunas",
-							filterPanelInputLabel: "Valor",
-							filterPanelInputPlaceholder: "Filtrar valor",
+        <Box sx={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={filteredList}
+            columns={columns}
+            pageSize={5}
+            localeText={{
+              columnMenuLabel: "Menu",
+              columnMenuShowColumns: "Visualização de Colunas",
+              columnMenuFilter: "Filtrar",
+              columnMenuHideColumn: "Esconder",
+              columnMenuUnsort: "Desfazer Ordenação",
+              columnMenuSortAsc: "Ordenar Asc",
+              columnMenuSortDesc: "Ordenar Desc",
+              columnHeaderSortIconLabel: "Ordenar",
+              toolbarFiltersTooltipActive: (count) =>
+                count !== 1 ? `${count} filtros` : `${count} filtro`,
+              filterPanelAddFilter: "Adicionar Filtro",
+              filterPanelDeleteIconLabel: "Excluir",
+              filterPanelLinkOperator: "Operador Lógico",
+              filterPanelOperators: "Operador do Filtro", // TODO v6: rename to filterPanelOperator
+              filterPanelOperatorAnd: "E",
+              filterPanelOperatorOr: "OU",
+              filterPanelColumns: "Colunas",
+              filterPanelInputLabel: "Valor",
+              filterPanelInputPlaceholder: "Filtrar valor",
 
-							// Filter operators text
-							filterOperatorContains: "contém",
-							filterOperatorEquals: "é exatamente",
-							filterOperatorStartsWith: "começa com",
-							filterOperatorEndsWith: "termina com",
-							filterOperatorIs: "é",
-							filterOperatorNot: "não é",
-							filterOperatorAfter: "está depois de",
-							filterOperatorOnOrAfter: "está em ou depois",
-							filterOperatorBefore: "está antes",
-							filterOperatorOnOrBefore: "está em ou antes",
-							filterOperatorIsEmpty: "está vazio",
-							filterOperatorIsNotEmpty: "não está vazio",
-							filterOperatorIsAnyOf: "é um dos",
+              // Filter operators text
+              filterOperatorContains: "contém",
+              filterOperatorEquals: "é exatamente",
+              filterOperatorStartsWith: "começa com",
+              filterOperatorEndsWith: "termina com",
+              filterOperatorIs: "é",
+              filterOperatorNot: "não é",
+              filterOperatorAfter: "está depois de",
+              filterOperatorOnOrAfter: "está em ou depois",
+              filterOperatorBefore: "está antes",
+              filterOperatorOnOrBefore: "está em ou antes",
+              filterOperatorIsEmpty: "está vazio",
+              filterOperatorIsNotEmpty: "não está vazio",
+              filterOperatorIsAnyOf: "é um dos",
 
-							// Columns panel text
-							columnsPanelTextFieldLabel: "Encontrar coluna",
-							columnsPanelTextFieldPlaceholder:
-								"Título da Coluna",
-							columnsPanelDragIconLabel: "Reordenar coluna",
-							columnsPanelShowAllButton: "Mostrar todos",
-							columnsPanelHideAllButton: "Esconder todos",
-							footerRowSelected: (count) =>
-								count !== 1
-									? `${count.toLocaleString()} linhas selecionadas`
-									: `${count.toLocaleString()} linha selecionada`,
-						}}
-						initialState={{
-							columns: {
-								columnVisibilityModel: {
-									// Columns to be hide
-									endereco: false,
-								},
-							},
-						}}
-						rowsPerPageOptions={[5]}
-						checkboxSelection
-						disableSelectionOnClick
-						experimentalFeatures={{ newEditingApi: true }}
-					/>
-				</Box>
-			</Box>
-		</Box>
-	);
+              // Columns panel text
+              columnsPanelTextFieldLabel: "Encontrar coluna",
+              columnsPanelTextFieldPlaceholder: "Título da Coluna",
+              columnsPanelDragIconLabel: "Reordenar coluna",
+              columnsPanelShowAllButton: "Mostrar todos",
+              columnsPanelHideAllButton: "Esconder todos",
+              footerRowSelected: (count) =>
+                count !== 1
+                  ? `${count.toLocaleString()} linhas selecionadas`
+                  : `${count.toLocaleString()} linha selecionada`,
+            }}
+            initialState={{
+              columns: {
+                columnVisibilityModel: {
+                  // Columns to be hide
+                  endereco: false,
+                },
+              },
+            }}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+            experimentalFeatures={{ newEditingApi: true }}
+          />
+        </Box>
+      </Box>
+    </Box>
+  );
 }
