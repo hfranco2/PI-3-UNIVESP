@@ -320,6 +320,7 @@ export default function RequestPage() {
 	const [open, setOpen] = React.useState(false);
 	const [name, setName] = React.useState();
     const [pedido, setPedido] = React.useState(new model)
+	const [itemQuantity, setItemQuantity] = React.useState("1")
 
 	const handleClickOpen = ( i) => {
  
@@ -372,14 +373,14 @@ export default function RequestPage() {
 		setItemsArray(itemsArray.filter((e) => e !== value));
 	};
 	return (
-		 <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <MiniDrawer />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Grid
           container
           direction="row"
-          justifyContent="flex-staFrt"
+          justifyContent="flex-start"
           alignItems="center"
         >
           <Grid item>
@@ -410,16 +411,13 @@ export default function RequestPage() {
             >
               <DialogTitle>Novo Pedido</DialogTitle>
               <DialogContent>
-                <Box component="form"
-					sx={{
-						'& .MuiTextField-root': { m: 1, width: '25ch' },
-					}}>
-                  <div>	
+                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                  <div>
                     <TextField
                       label="Nome do Cliente"
                       id="outlined-start-adornment"
                       sx={{ m: 1, width: "25ch" }}
-                       value={pedido.name}
+                      value={pedido.name}
                     />
                     <TextField
                       label="Telefone"
@@ -444,22 +442,48 @@ export default function RequestPage() {
                         label="Amount"
                       />
                     </FormControl>
-                    <Autocomplete
-                      disablePortal
-                      id="combo-box-demo"
-                      options={produtos}
-                      sx={{ m: 1, width: "25ch" }}
-                      value={pedido.itemList} 
-                      renderInput={(params) => (
-                        <TextField {...params} label="Item" />
-                      )}
-                    />
-                    <Box sx={{ m: 1, width: "75ch", borderColor: 'primary.main', border: 3, borderTop: 0, borderRadius: 1, p:1 }}>
+
+                    <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
+                      <Grid item>
+                        <Autocomplete
+                          clearOnEscape
+                          id="combo-box-demo"
+                          options={produtos}
+                          sx={{ m: 1, width: "25ch" }}
+                          value={pedido.itemList}
+                          renderInput={(params) => (
+                            <TextField {...params} label="Item" />
+                          )}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <TextField
+						value={itemQuantity}
+						InputProps={{ inputProps: { min: 1 } }}
+                          type="number"
+                          name="quantity"
+                          label="Quantidade"
+                          variant="outlined"
+                          sx={{ m: 1, width: "25ch" }}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <Button
+							sx={{height: "75%"}}
+                          variant="contained"
+                          startIcon={<AddIcon />}
+                          onClick={handleClickOpen}
+                        >
+                          Adicionar Item
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    {/* <Box sx={{ m: 1, width: "75ch", borderColor: 'primary.main', border: 3, borderTop: 0, borderRadius: 1, p:1 }}>
                       <Grid
                           container
                           direction="column"
                           justifyContent="center"
-                          alignItems="center"
+                          alignItems="flex-start"
                           spacing={2}                        >
                           {itemsArray.map((value) => {
                             return (
@@ -512,8 +536,8 @@ export default function RequestPage() {
                           })}
                         </Grid>
                     </Box>
-                     
-                    
+                      */}
+
                     {/* <List sx={{ m: 1 }}>
 											{itemsArray.map((value) => {
 												const labelId = `checkbox-list-label-${value}`;
