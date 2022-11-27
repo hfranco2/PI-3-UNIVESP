@@ -90,6 +90,16 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	...theme.mixins.toolbar,
 }));
 
+const initialProdutosState = [
+	{ label: "Coca-Cola 2L", id: 1 },
+	{ label: "Coca-Cola 600ml", id: 2 },
+	{ label: "Pizza Calabresa", id: 3 },
+	{ label: "Pizza Frango", id: 4 },
+	{ label: "Pizza Queijo", id: 5 },
+	{ label: "Pizza 4 Queijos", id: 6 },
+	{ label: "Pizza Frango com Catupiry", id: 7 }
+]
+
 
 export default function RequestPage() {
     const RequestEdit = ({ index }) => {
@@ -310,16 +320,19 @@ export default function RequestPage() {
 			entrega: true,
 		},
 	]);
-	const [produtos, setProdutos] = React.useState([
-		{ label: "Coca-Cola 2L", id: 1 },
-		{ label: "Coca-Cola 600ml", id: 1 },
-		{ label: "Pizza Calabresa", id: 1 },
-		{ label: "Pizza Frango", id: 1 },
-	]);
+
+	
+
     const model = require('../entities/model')
 	const [open, setOpen] = React.useState(false);
 	const [name, setName] = React.useState();
     const [pedido, setPedido] = React.useState(new model)
+
+	const [itemValue, setItemValue] = React.useState(null)
+	const handleItemValueChange = (event,value) =>
+	{
+		setItemValue(value);
+	};
 
 	const [itemQuantity, setItemQuantity] = React.useState(1)
 	const handleItemQuantityChange = (event) =>
@@ -330,7 +343,42 @@ export default function RequestPage() {
 		
 	};
 
-	const handleClickOpen = ( i) => {
+	const handleAddItem = (e) => {
+		console.log(itemValue);
+		if(!itemValue) return;
+
+		var existingItemIndex = itemsArray.findIndex(item => item.id == itemValue.id);
+
+		if(existingItemIndex > -1){
+			const newState = itemsArray.map( obj => {
+				if(obj.id == itemValue.id){
+					obj.quantity += itemQuantity;
+					return obj;
+				}
+				return obj;
+			});
+			setItemsArray(newState);
+		}else{
+			const newState = itemsArray.concat(
+				{
+					label: itemValue.label,
+					id: itemValue.id,
+					quantity: itemQuantity
+				}
+			);
+			setItemsArray(newState);
+		}
+		
+		
+
+		// itemsArray.push({
+		// 	label: itemValue.label,
+		// 	id: itemValue.id,
+		// 	quantity: itemQuantity
+		// });
+	};
+
+	const handleClickOpen = (i) => {
         setPedido(new model(i.id,i.nomeDoCliente,i.telefone,i.hora,i.endereco,i.nomeDoCliente,i.observacoes,i.pago,i.entrega))
        console.log(pedido)
 		setOpen(true);
@@ -356,6 +404,8 @@ export default function RequestPage() {
 		);
 	};
 
+	const [produtos, setProdutos] = React.useState(initialProdutosState);
+
 	const [itemsArray, setItemsArray] = useState([
 		{
       label: "Coca-Cola 2L",
@@ -364,12 +414,12 @@ export default function RequestPage() {
     },
     {
       label: "Pizza Calabresa",
-      id: 2,
+      id: 3,
       quantity:2
     },
     {
       label: "Pizza Frango",
-      id: 3,
+      id: 4,
       quantity:1
     },
 	]);
@@ -455,10 +505,12 @@ export default function RequestPage() {
                       <Grid item>
                         <Autocomplete
                           clearOnEscape
-                          id="combo-box-demo"
+						  inputValue={itemValue ? itemValue.label : ""}
+                          id="items-combo-box"
                           options={produtos}
                           sx={{ m: 1, width: "25ch" }}
-                          value={pedido.itemList}
+                          value={pedido.itemList} //change this to load only when dialog appears
+						  onChange={handleItemValueChange}
                           renderInput={(params) => (
                             <TextField {...params} label="Item" />
                           )}
@@ -480,7 +532,7 @@ export default function RequestPage() {
 							 sx={{ m: 1, width: "25ch" }}
                           variant="contained"
                           startIcon={<AddIcon />}
-                          onClick={handleClickOpen}
+                          onClick={handleAddItem}
                         >
                           Adicionar Item
                         </Button>
