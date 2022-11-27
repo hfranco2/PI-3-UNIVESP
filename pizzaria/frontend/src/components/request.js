@@ -22,7 +22,7 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import Autocomplete from "@mui/material/Autocomplete";
 import Divider from '@mui/material/Divider';
-
+import ListSubheader from '@mui/material/ListSubheader';
 import Typography from '@mui/material/Typography';
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
@@ -320,11 +320,17 @@ export default function RequestPage() {
 	const [open, setOpen] = React.useState(false);
 	const [name, setName] = React.useState();
     const [pedido, setPedido] = React.useState(new model)
-	const [itemQuantity, setItemQuantity] = React.useState("1")
+
+	const [itemQuantity, setItemQuantity] = React.useState(1)
+	const handleItemQuantityChange = (event) =>
+	{
+		if(event.target.value > 0)
+			setItemQuantity(event.target.value)
+		
+		
+	};
 
 	const handleClickOpen = ( i) => {
- 
-
         setPedido(new model(i.id,i.nomeDoCliente,i.telefone,i.hora,i.endereco,i.nomeDoCliente,i.observacoes,i.pago,i.entrega))
        console.log(pedido)
 		setOpen(true);
@@ -370,8 +376,10 @@ export default function RequestPage() {
 
 
 	const removeItem = (event, value) => {
+		console.log(value);
 		setItemsArray(itemsArray.filter((e) => e !== value));
 	};
+
 	return (
     <Box sx={{ display: "flex" }}>
       <MiniDrawer />
@@ -458,18 +466,18 @@ export default function RequestPage() {
                       </Grid>
                       <Grid item>
                         <TextField
-						value={itemQuantity}
-						InputProps={{ inputProps: { min: 1 } }}
-                          type="number"
-                          name="quantity"
-                          label="Quantidade"
-                          variant="outlined"
-                          sx={{ m: 1, width: "25ch" }}
+							value={itemQuantity}
+							onChange={handleItemQuantityChange}
+							type="number"
+							name="quantity"
+							label="Quantidade"
+							variant="outlined"
+							sx={{ m: 1, width: "25ch" }}
                         />
                       </Grid>
                       <Grid item>
                         <Button
-							sx={{height: "75%"}}
+							 sx={{ m: 1, width: "25ch" }}
                           variant="contained"
                           startIcon={<AddIcon />}
                           onClick={handleClickOpen}
@@ -478,85 +486,44 @@ export default function RequestPage() {
                         </Button>
                       </Grid>
                     </Grid>
-                    {/* <Box sx={{ m: 1, width: "75ch", borderColor: 'primary.main', border: 3, borderTop: 0, borderRadius: 1, p:1 }}>
-                      <Grid
-                          container
-                          direction="column"
-                          justifyContent="center"
-                          alignItems="flex-start"
-                          spacing={2}                        >
-                          {itemsArray.map((value) => {
-                            return (
-                              <Grid item key={value.id}>
-                                <Grid
-                                  container
-                                  direction="row"
-                                  justifyContent="flex-start"
-                                  spacing={2}
-                                  alignItems="center"
-                                >
-                                  <Grid item>
-                                    <Typography
-                                      variant="button"
-                                      display="block"
-                                      gutterBottom
-                                    >
-                                      {value.label}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid item>
-                                    <TextField
-                                      type="number"
-                                      name="quantity"
-                                      label="Quantidade"
-                                      variant="outlined"
-                                      sx={{
-                                        "& > :not(style)": { width: "20ch" },
-                                      }}
-                                    />
-                                  </Grid>
-                                  <Grid item>
-                                    <IconButton aria-label="delete">
+					<List sx={{ m: 1 }} 
+					aria-labelledby="items-list-subheader"
+					subheader={
+					  <ListSubheader component="div" id="items-list-subheader">
+						Items do Pedido
+					  </ListSubheader>
+					}
+					>
+						{itemsArray.map((value) => {
+							const labelId = `checkbox-list-label-${value.id}`;
+							return (
+								<div key={value.id}>
+									<ListItem
+									key={value.id}
+									sx={{
+										maxWidth: "200px",
+									}}
+									>
+										<ListItemText
+											id={labelId}
+											primary={`${value.quantity} x ${value.label} `}
+										/>
 										<DeleteIcon
 											sx={{
 												cursor: "pointer",
 											}}
 											onClick={(event) =>
 												removeItem(
-														event,
-													`${value}`
+													event,
+													value
 												)}
 										/>
-                                    </IconButton>
-                                  </Grid>
-                                </Grid>
-                                <Divider sx={{ m: 1 }} />
-                              </Grid>
-                            );
-                          })}
-                        </Grid>
-                    </Box>
-                      */}
-
-                    {/* <List sx={{ m: 1 }}>
-											{itemsArray.map((value) => {
-												const labelId = `checkbox-list-label-${value}`;
-												return (
-													<ListItem
-														key={value}
-														sx={{
-															maxWidth: "200px",
-														}}
-													>
-														<ListItemText
-															id={labelId}
-															primary={`${value}`}
-														/>
-														
-													</ListItem>
-												);
-											})}
-										</List> */}
+									</ListItem>
+									<Divider sx={{ m: 1 }} />
+								</div>
+							);
+						})}
+					</List>
                     <FormControl fullWidth sx={{ m: 1 }}>
                       <InputLabel htmlFor="outlined-adornment-amount">
                         Observações
