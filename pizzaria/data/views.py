@@ -37,7 +37,7 @@ class PedidoView(APIView):
 class PedidoDetail(APIView):
     def get(self, request, id, *args, **kwargs):
         try:
-            pedido_instance = Pedido.objects.filter(id = id).first()
+            pedido_instance = Pedido.objects.get(id = id)
         except:
             return Response(
                 {"res": "Object with todo id does not exists"},
@@ -49,7 +49,7 @@ class PedidoDetail(APIView):
 
     def put(self, request, id, *args, **kwargs):
         try:
-            pedido_instance = Pedido.objects.filter(id = id).first()
+            pedido_instance = Pedido.objects.get(id = id)
         except:
             return Response(
                 {"res": "Object with this id does not exists"},
@@ -68,7 +68,7 @@ class PedidoDetail(APIView):
         Deletes the todo item with given todo_id if exists
         '''
         try:
-            pedido_instance = Pedido.objects.filter(id = id).first()
+            pedido_instance = Pedido.objects.get(id = id)
         except:
             return Response(
                 {"res": "Object with this id does not exists"},
@@ -171,7 +171,7 @@ def getAllPedidos(request, *args, **kwargs):
 @api_view(('GET',))
 def getPedidosEntregues(request, *args, **kwargs):
     try:
-        pedido_instance = Pedido.objects.filter(entrega = True)
+        pedido_instance = Pedido.objects.filter(entrega = True, status = 3)
     except:
         return Response(
             {"res": "Object with todo id does not exists"},
@@ -179,7 +179,34 @@ def getPedidosEntregues(request, *args, **kwargs):
         )
 
     serializer = PedidoSerializer(pedido_instance, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)    
+    return Response(serializer.data, status=status.HTTP_200_OK)   
+
+@api_view(('GET',))
+def getPedidosCriados(request, *args, **kwargs):
+    try:
+        pedido_instance = Pedido.objects.filter(status = 1)
+    except:
+        return Response(
+            {"res": "Object with todo id does not exists"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    serializer = PedidoSerializer(pedido_instance, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)   
+
+@api_view(('GET',))
+def getPedidosEfetuados(request, *args, **kwargs):
+    try:
+        pedido_instance = Pedido.objects.filter(status = 2)
+    except:
+        return Response(
+            {"res": "Object with todo id does not exists"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    serializer = PedidoSerializer(pedido_instance, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)  
+
 class MetodosPagamentoView(APIView):
     def get(self, request, *arrgs, **kwargs):
         try:

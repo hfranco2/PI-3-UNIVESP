@@ -57,6 +57,14 @@ class Pedido(models.Model):
         MetodosPagamento, on_delete=models.RESTRICT, default=1
     )
     
+    @property
+    def valorTotal(self):
+        itensList = ItemPedido.objects.filter(pedido = self)
+        valorTotal = 0
+        for item in itensList:
+            valorTotal += item.quantidade * item.produto.valor
+
+        return valorTotal
 
     # def __init__(self, *args, **kwargs) -> None:
     #     self.valorTotal = 0

@@ -18,7 +18,7 @@ class PedidoSerializer(serializers.ModelSerializer):
         model = Pedido
         fields = '__all__'
 
-    valorTotal = serializers.SerializerMethodField('valorTotal')
+    valorTotal = serializers.DecimalField(max_digits=12, decimal_places=2)
     metodoPagamento_obj = serializers.SerializerMethodField('getMetodoPagamento')
     # itens = serializers.SerializerMethodField('getItens')
 
@@ -30,13 +30,7 @@ class PedidoSerializer(serializers.ModelSerializer):
         prod = MetodosPagamento.objects.get(id= obj.metodoPagamento.id)
         return MetodosPagamentoSerializer(prod).data
 
-    def valorTotal(self, obj):
-        itensList = ItemPedido.objects.filter(pedido = obj)
-        valorTotal = 0
-        for item in itensList:
-            valorTotal += item.quantidade * item.produto.valor
 
-        return valorTotal
 
 class ItemPedidoSerializer(serializers.ModelSerializer):
     
