@@ -57,14 +57,6 @@ class Pedido(models.Model):
         MetodosPagamento, on_delete=models.RESTRICT, default=1
     )
     
-    @property
-    def valorTotal(self):
-        self.itensList = ItemPedido.objects.filter(pedido = self)
-        valorTotal = 0
-        for item in self.itensList:
-            valorTotal += item.quantidade * item.produto.valor
-
-        return valorTotal
 
     # def __init__(self, *args, **kwargs) -> None:
     #     self.valorTotal = 0
@@ -86,6 +78,9 @@ class ItemPedido(models.Model):
     observacao = models.TextField(null=True, blank=True)
     produto = models.ForeignKey(Produto, on_delete=models.RESTRICT)
     pedido = models.ForeignKey(Pedido, on_delete=models.RESTRICT)
+
+    def nomeProduto(self):
+        return self.produto.nome
 
     def publish(self):
         self.save()

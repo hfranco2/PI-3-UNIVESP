@@ -2,8 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from .models import Pedido, ItemPedido
-from .serializers import PedidoSerializer, ItemPedidoSerializer
+from rest_framework.decorators import api_view
+from .models import Pedido, ItemPedido, MetodosPagamento, Produto
+from .serializers import PedidoSerializer, ItemPedidoSerializer, MetodosPagamentoSerializer, ProdutoSerializer
 
 # Create your views here.
 
@@ -33,10 +34,10 @@ class PedidoView(APIView):
 
 
 
-class PedidoIdView(APIView):
-    def get(self, request, pedido_id, *args, **kwargs):
+class PedidoDetail(APIView):
+    def get(self, request, id, *args, **kwargs):
         try:
-            pedido_instance = Pedido.objects.filter(id = pedido_id).first()
+            pedido_instance = Pedido.objects.filter(id = id).first()
         except:
             return Response(
                 {"res": "Object with todo id does not exists"},
@@ -46,9 +47,9 @@ class PedidoIdView(APIView):
         serializer = PedidoSerializer(pedido_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, pedido_id, *args, **kwargs):
+    def put(self, request, id, *args, **kwargs):
         try:
-            pedido_instance = Pedido.objects.filter(id = pedido_id).first()
+            pedido_instance = Pedido.objects.filter(id = id).first()
         except:
             return Response(
                 {"res": "Object with this id does not exists"},
@@ -62,12 +63,12 @@ class PedidoIdView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pedido_id, *args, **kwargs):
+    def delete(self, request, id, *args, **kwargs):
         '''
         Deletes the todo item with given todo_id if exists
         '''
         try:
-            pedido_instance = Pedido.objects.filter(id = pedido_id).first()
+            pedido_instance = Pedido.objects.filter(id = id).first()
         except:
             return Response(
                 {"res": "Object with this id does not exists"},
@@ -91,13 +92,11 @@ class ItemPedidoView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ItemPedidoDetail(APIView):
 
-
-class ItemPedidoIdView(APIView):
-
-    def get(self, request, pedido_id, *args, **kwargs):
+    def get(self, request, id, *args, **kwargs):
         try:
-            pedido_instance = ItemPedido.objects.filter(id=pedido_id)
+            pedido_instance = ItemPedido.objects.filter(id=id)
         except:
             return Response(
                 {"res": "Object with todo id does not exists"},
@@ -107,9 +106,9 @@ class ItemPedidoIdView(APIView):
         serializer = ItemPedidoSerializer(pedido_instance, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, pedido_id, *args, **kwargs):
+    def put(self, request, id, *args, **kwargs):
         try:
-            pedido_instance = ItemPedido.objects.filter(id=pedido_id)
+            pedido_instance = ItemPedido.objects.filter(id=id)
         except:
             return Response(
                 {"res": "Object with this id does not exists"},
@@ -124,12 +123,12 @@ class ItemPedidoIdView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)     
 
 
-    def delete(self, request, pedido_id, *args, **kwargs):
+    def delete(self, request, id, *args, **kwargs):
         '''
         Deletes the todo item with given todo_id if exists
         '''
         try:
-            pedido_instance = ItemPedido.objects.filter(id=pedido_id)
+            pedido_instance = ItemPedido.objects.filter(id=id)
         except:
             return Response(
                 {"res": "Object with this id does not exists"},
@@ -141,3 +140,187 @@ class ItemPedidoIdView(APIView):
             {"res": "Object deleted!"},
             status=status.HTTP_200_OK
         )
+
+@api_view(('GET',))
+def getAllItens(request, id, *args, **kwargs):
+    try:
+        pedido_instance = Pedido.objects.get(id=id)
+        itens = ItemPedido.objects.filter(pedido = pedido_instance)
+    except:
+        return Response(
+            {"res": "Object with todo id does not exists"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    serializer = ItemPedidoSerializer(itens, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(('GET',))
+def getAllPedidos(request, *args, **kwargs):
+    try:
+        pedido_instance = Pedido.objects.all()
+    except:
+        return Response(
+            {"res": "Object with todo id does not exists"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    serializer = PedidoSerializer(pedido_instance, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(('GET',))
+def getPedidosEntregues(request, *args, **kwargs):
+    try:
+        pedido_instance = Pedido.objects.filter(entrega = True)
+    except:
+        return Response(
+            {"res": "Object with todo id does not exists"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    serializer = PedidoSerializer(pedido_instance, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)    
+class MetodosPagamentoView(APIView):
+    def get(self, request, *arrgs, **kwargs):
+        try:
+            instance = MetodosPagamento.objects.all()
+        except Exception as ex:
+            print(ex)
+            return Response(
+                {"res": "Nao existem Metodos de Pagamento"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = MetodosPagamentoSerializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+    def post(self, request, *args, **kwargs):
+        
+        serializer = MetodosPagamentoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class MetodosPagamentoDetail(APIView):
+    def get(self, request, id, *args, **kwargs):
+        try:
+            instance = MetodosPagamento.objects.filter(id = id).first()
+        except:
+            return Response(
+                {"res": "Object with todo id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = MetodosPagamentoSerializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, id, *args, **kwargs):
+        try:
+            instance = MetodosPagamento.objects.filter(id = id).first()
+        except:
+            return Response(
+                {"res": "Object with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = MetodosPagamentoSerializer(instance=instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id, *args, **kwargs):
+        '''
+        Deletes the todo item with given todo_id if exists
+        '''
+        try:
+            instance = MetodosPagamento.objects.filter(id = id).first()
+        except:
+            return Response(
+                {"res": "Object with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        instance.delete()
+        return Response(
+            {"res": "Object deleted!"},
+            status=status.HTTP_200_OK
+        )
+
+class ProdutoView(APIView):
+    def get(self, request, *arrgs, **kwargs):
+        try:
+            instance = Produto.objects.all()
+        except Exception as ex:
+            print(ex)
+            return Response(
+                {"res": "Nao existem Produtos"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = ProdutoSerializer(instance, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+    def post(self, request, *args, **kwargs):
+        
+        serializer = ProdutoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProdutoDetail(APIView):
+    def get(self, request, id, *args, **kwargs):
+        try:
+            instance = Produto.objects.filter(id = id).first()
+        except:
+            return Response(
+                {"res": "Object with todo id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = ProdutoSerializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, id, *args, **kwargs):
+        try:
+            instance = Produto.objects.filter(id = id).first()
+        except:
+            return Response(
+                {"res": "Object with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = ProdutoSerializer(instance=instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id, *args, **kwargs):
+        '''
+        Deletes the todo item with given todo_id if exists
+        '''
+        try:
+            instance = Produto.objects.filter(id = id).first()
+        except:
+            return Response(
+                {"res": "Object with this id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        instance.delete()
+        return Response(
+            {"res": "Object deleted!"},
+            status=status.HTTP_200_OK
+        )        
