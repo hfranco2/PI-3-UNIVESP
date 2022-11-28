@@ -125,12 +125,9 @@ export default function RequestPage() {
 				}
 			/>
 		);
-};
-	const [values, setValues] = React.useState({
-		textmask: "(XX) XXXXX-XXXX",
-		numberformat: "1320",
-	});
-	const [columns, setColumns] = React.useState([
+	};
+	
+	const columns = [
 		{ field: "id", headerName: "Código", width: 90 },
 		{
 			field: "nomeDoCliente",
@@ -212,7 +209,7 @@ export default function RequestPage() {
 				);
 			},
 		},
-	]);
+	];
 	const [rows, setRows] = React.useState([
 		{
 			id: 1,
@@ -325,8 +322,10 @@ export default function RequestPage() {
 
     const model = require('../entities/model')
 	const [open, setOpen] = React.useState(false);
-	const [name, setName] = React.useState();
+	
     const [pedido, setPedido] = React.useState(new model)
+
+	const [name, setName] = React.useState("");
 
 	const [itemValue, setItemValue] = React.useState(null)
 	const handleItemValueChange = (event,value) =>
@@ -373,13 +372,22 @@ export default function RequestPage() {
 	};
 
 	const handleClickOpen = (i) => {
-        setPedido(new model(i.id,i.nomeDoCliente,i.telefone,i.hora,i.endereco,i.nomeDoCliente,i.observacoes,i.pago,i.entrega))
+        
+		setName(pedido.name);
+		setPedido(new model(i.id,i.nomeDoCliente,i.telefone,i.hora,i.endereco,i.nomeDoCliente,i.observacoes,i.pago,i.entrega))
        console.log(pedido)
 		setOpen(true);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
+	};
+
+	const handleSave = () => {
+		
+		console.log(name)
+
+
 	};
 
 	const [filteredList, setFilteredList] = React.useState(rows);
@@ -420,7 +428,6 @@ export default function RequestPage() {
 
 
 	const removeItem = (event, value) => {
-		console.log(value);
 		setItemsArray(itemsArray.filter((e) => e !== value));
 	};
 
@@ -467,9 +474,10 @@ export default function RequestPage() {
                   <div>
                     <TextField
                       label="Nome do Cliente"
-                      id="outlined-start-adornment"
+					  id="outlined-name"
                       sx={{ m: 1, width: "25ch" }}
-                      value={pedido.name}
+                      value={name || ""}
+					  onChange={(e) => setName(e.target.value)}
                     />
                     <TextField
                       label="Telefone"
@@ -584,7 +592,7 @@ export default function RequestPage() {
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancelar</Button>
-                <Button onClick={handleClose}>Salvar</Button>
+                <Button onClick={handleSave}>Salvar</Button>
               </DialogActions>
             </Dialog>
           </Grid>
