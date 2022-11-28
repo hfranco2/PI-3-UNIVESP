@@ -103,28 +103,28 @@ const initialProdutosState = [
 
 export default function RequestPage() {
     const RequestEdit = ({ index }) => {
-	const handleEditClick = () => {
-      
-        handleClickOpen(index)
-    };
+		const handleEditClick = () => {
+		
+			handleClickOpen(index)
+		};
 
-	const handleDelete = () => {
-              console.log(index)
-    };
-	return (
-		<FormControlLabel
-			control={
-				<div>
-					<IconButton color="primary" onClick={handleEditClick}>
-						<EditIcon style={{ color: "#000000" }} />
-					</IconButton>
-					<IconButton color="primary" onClick={handleDelete}>
-						<DeleteIcon style={{ color: "#000000" }} />
-					</IconButton>
-				</div>
-			}
-		/>
-	);
+		const handleDelete = () => {
+				console.log(index)
+		};
+		return (
+			<FormControlLabel
+				control={
+					<div>
+						<IconButton color="primary" onClick={handleEditClick}>
+							<EditIcon style={{ color: "#000000" }} />
+						</IconButton>
+						<IconButton color="primary" onClick={handleDelete}>
+							<DeleteIcon style={{ color: "#000000" }} />
+						</IconButton>
+					</div>
+				}
+			/>
+		);
 };
 	const [values, setValues] = React.useState({
 		textmask: "(XX) XXXXX-XXXX",
@@ -352,7 +352,7 @@ export default function RequestPage() {
 		if(existingItemIndex > -1){
 			const newState = itemsArray.map( obj => {
 				if(obj.id == itemValue.id){
-					obj.quantity += itemQuantity;
+					obj.quantity += Number(itemQuantity);
 					return obj;
 				}
 				return obj;
@@ -368,14 +368,8 @@ export default function RequestPage() {
 			);
 			setItemsArray(newState);
 		}
-		
-		
-
-		// itemsArray.push({
-		// 	label: itemValue.label,
-		// 	id: itemValue.id,
-		// 	quantity: itemQuantity
-		// });
+		setItemQuantity(1);
+		setItemValue(null);
 	};
 
 	const handleClickOpen = (i) => {
@@ -467,7 +461,7 @@ export default function RequestPage() {
               open={open}
               onClose={handleClose}
             >
-              <DialogTitle>Novo Pedido</DialogTitle>
+              <DialogTitle>Editando Pedido {pedido.id}</DialogTitle>
               <DialogContent>
                 <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                   <div>
@@ -505,11 +499,10 @@ export default function RequestPage() {
                       <Grid item>
                         <Autocomplete
                           clearOnEscape
-						  inputValue={itemValue ? itemValue.label : ""}
                           id="items-combo-box"
                           options={produtos}
                           sx={{ m: 1, width: "25ch" }}
-                          value={pedido.itemList} //change this to load only when dialog appears
+                          value={itemValue} //change this to load only when dialog appears
 						  onChange={handleItemValueChange}
                           renderInput={(params) => (
                             <TextField {...params} label="Item" />
@@ -659,7 +652,6 @@ export default function RequestPage() {
               },
             }}
             rowsPerPageOptions={[5]}
-            checkboxSelection
             disableSelectionOnClick
             experimentalFeatures={{ newEditingApi: true }}
           />
