@@ -1,7 +1,7 @@
 import { dividerClasses } from "@mui/material";
 import React, { Component } from "react";
 import ReactDOM from "react-dom/client";
-import RequestPage from "./request";
+import RequestPage from "./Request";
 import CozinhaPage from "./Cozinha";
 import Signin from "./Signin";
 import {

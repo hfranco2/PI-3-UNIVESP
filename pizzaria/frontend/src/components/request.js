@@ -32,6 +32,8 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 //Custom Components
 import MiniDrawer from "./MiniDrawer";
 import { List } from "@mui/material";
@@ -327,6 +329,12 @@ export default function RequestPage() {
 
 	const [name, setName] = React.useState("");
 
+	const [status, setStatus] = React.useState("");
+
+	const handleStatusChange = (e) => {
+		setStatus(e.target.value);
+	};
+
 	const [itemValue, setItemValue] = React.useState(null)
 	const handleItemValueChange = (event,value) =>
 	{
@@ -372,10 +380,13 @@ export default function RequestPage() {
 	};
 
 	const handleClickOpen = (i) => {
-        
-		setName(pedido.name);
-		setPedido(new model(i.id,i.nomeDoCliente,i.telefone,i.hora,i.endereco,i.nomeDoCliente,i.observacoes,i.pago,i.entrega))
-       console.log(pedido)
+		console.log(i);
+        if(i){
+			setName(i.name);
+			setPedido(new model(i.id,i.nomeDoCliente,i.telefone,i.hora,i.endereco,i.nomeDoCliente,i.observacoes,i.pago,i.entrega))
+			console.log(pedido)
+		}
+		
 		setOpen(true);
 	};
 
@@ -383,9 +394,34 @@ export default function RequestPage() {
 		setOpen(false);
 	};
 
+	const cleanEditOrCreate = () => {
+		setName("");
+		setPedido(new model);
+
+	}
+
 	const handleSave = () => {
 		
 		console.log(name)
+
+		//First validate if empty fields
+		var emptyFields = "";
+		if(!name)
+			emptyFields+= "Nome, "
+
+		console.log(emptyFields);
+		//If some field is Empty, show message
+
+		//Second, if editing, validate that was changes
+		if(pedido.id){
+			var changes = "";
+			if(pedido.name != name)
+				changes+= "Nome, ";
+
+			console.log(`Changes: ${changes}`)
+		}
+		
+		
 
 
 	};
@@ -458,7 +494,7 @@ export default function RequestPage() {
             <Button
               variant="contained"
               startIcon={<AddIcon />}
-              onClick={handleClickOpen}
+              onClick={(e) => handleClickOpen(null)}
             >
               Novo Pedido
             </Button>
@@ -468,13 +504,13 @@ export default function RequestPage() {
               open={open}
               onClose={handleClose}
             >
-              <DialogTitle>Editando Pedido {pedido.id}</DialogTitle>
+              <DialogTitle>{pedido.id ? `Editando pedido ${pedido.id}` : "Novo Pedido"}</DialogTitle>
               <DialogContent>
                 <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                   <div>
                     <TextField
                       label="Nome do Cliente"
-					  id="outlined-name"
+					  id="name"
                       sx={{ m: 1, width: "25ch" }}
                       value={name || ""}
 					  onChange={(e) => setName(e.target.value)}
@@ -501,6 +537,8 @@ export default function RequestPage() {
                         value={pedido.address}
                         label="Amount"
                       />
+						{/* change to textField because Input with bug */}
+					  
                     </FormControl>
 
                     <Grid container justifyContent="flex-start" alignItems="center" spacing={1}>
@@ -577,6 +615,18 @@ export default function RequestPage() {
 							);
 						})}
 					</List>
+					<Select
+						labelId="status-select-label"
+						id="status-select"
+						value={status}
+						label="Status"
+						onChange={handleStatusChange}
+					>
+						<MenuItem value="criado">Criado</MenuItem>
+						<MenuItem value="cozinha">Preparando</MenuItem>
+						<MenuItem value="entrega">P/ Entrega</MenuItem>
+						<MenuItem value="entregue">Entregue</MenuItem>
+					</Select>
                     <FormControl fullWidth sx={{ m: 1 }}>
                       <InputLabel htmlFor="outlined-adornment-amount">
                         Observações
