@@ -106,13 +106,10 @@ const initialProdutosState = [
 export default function RequestPage() {
     const RequestEdit = ({ index }) => {
 		const handleEditClick = () => {
-		
+			console.log(index);
 			handleClickOpen(index)
 		};
 
-		const handleDelete = () => {
-				console.log(index)
-		};
 		return (
 			<FormControlLabel
 				control={
@@ -120,9 +117,9 @@ export default function RequestPage() {
 						<IconButton color="primary" onClick={handleEditClick}>
 							<EditIcon style={{ color: "#000000" }} />
 						</IconButton>
-						<IconButton color="primary" onClick={handleDelete}>
+						{/* <IconButton color="primary" onClick={handleDelete}>
 							<DeleteIcon style={{ color: "#000000" }} />
-						</IconButton>
+						</IconButton> */}
 					</div>
 				}
 			/>
@@ -212,7 +209,10 @@ export default function RequestPage() {
 			},
 		},
 	];
-	const [rows, setRows] = React.useState([
+
+	//const [pedidos, setPedidos] = React.useState([]);
+	//Comente abaixo e descomente acima para iniciar pedidos zerado
+	const [pedidos, setPedidos] = React.useState([
 		{
 			id: 1,
 			nomeDoCliente: "Geraldo da Silva",
@@ -225,6 +225,23 @@ export default function RequestPage() {
 			metodoPagamento: "cartão",
 			observacoes: "",
 			entrega: true,
+			items: [
+				{
+					label: "Coca-Cola 2L",
+					id: 1,
+					quantity:1
+				},
+				{
+					label: "Pizza Calabresa",
+					id: 3,
+					quantity:2
+				},
+				{
+					label: "Pizza Frango",
+					id: 4,
+					quantity:1
+				},
+			],
 			actions: "",
 		},
 		{
@@ -239,6 +256,24 @@ export default function RequestPage() {
 			metodoPagamento: "cartão",
 			observacoes: "",
 			entrega: true,
+			items: [
+				{
+					label: "Coca-Cola 2L",
+					id: 1,
+					quantity:1
+				},
+				{
+					label: "Pizza Queijo",
+					id: 5,
+					quantity:2
+				},
+				{
+					label: "Pizza Frango",
+					id: 4,
+					quantity:1
+				},
+			],
+			actions: "",
 		},
 		{
 			id: 3,
@@ -252,6 +287,24 @@ export default function RequestPage() {
 			metodoPagamento: "cartão",
 			observacoes: "",
 			entrega: true,
+			items: [
+				{
+					label: "Coca-Cola 2L",
+					id: 1,
+					quantity:1
+				},
+				{
+					label: "Pizza Calabresa",
+					id: 3,
+					quantity:2
+				},
+				{
+					label: "Pizza Frango",
+					id: 4,
+					quantity:1
+				},
+			],
+			actions: "",
 		},
 		{
 			id: 4,
@@ -265,6 +318,24 @@ export default function RequestPage() {
 			metodoPagamento: "cartão",
 			observacoes: "",
 			entrega: true,
+			items: [
+				{
+					label: "Coca-Cola 2L",
+					id: 1,
+					quantity:1
+				},
+				{
+					label: "Pizza Calabresa",
+					id: 3,
+					quantity:2
+				},
+				{
+					label: "Pizza Frango",
+					id: 4,
+					quantity:1
+				},
+			],
+			actions: "",
 		},
 		{
 			id: 5,
@@ -278,6 +349,24 @@ export default function RequestPage() {
 			metodoPagamento: "cartão",
 			observacoes: "",
 			entrega: true,
+			items: [
+				{
+					label: "Coca-Cola 2L",
+					id: 1,
+					quantity:1
+				},
+				{
+					label: "Pizza Calabresa",
+					id: 3,
+					quantity:2
+				},
+				{
+					label: "Pizza Frango",
+					id: 4,
+					quantity:1
+				},
+			],
+			actions: "",
 		},
 		{
 			id: 6,
@@ -291,6 +380,24 @@ export default function RequestPage() {
 			metodoPagamento: "cartão",
 			observacoes: "",
 			entrega: true,
+			items: [
+				{
+					label: "Coca-Cola 2L",
+					id: 1,
+					quantity:1
+				},
+				{
+					label: "Pizza Calabresa",
+					id: 3,
+					quantity:2
+				},
+				{
+					label: "Pizza Frango",
+					id: 4,
+					quantity:1
+				},
+			],
+			actions: "",
 		},
 		{
 			id: 7,
@@ -304,6 +411,24 @@ export default function RequestPage() {
 			metodoPagamento: "cartão",
 			observacoes: "",
 			entrega: true,
+			items: [
+				{
+					label: "Coca-Cola 2L",
+					id: 1,
+					quantity:1
+				},
+				{
+					label: "Pizza Calabresa",
+					id: 3,
+					quantity:2
+				},
+				{
+					label: "Pizza Frango",
+					id: 4,
+					quantity:1
+				},
+			],
+			actions: "",
 		},
 		{
 			id: 8,
@@ -317,6 +442,24 @@ export default function RequestPage() {
 			metodoPagamento: "cartão",
 			observacoes: "",
 			entrega: true,
+			items: [
+				{
+					label: "Coca-Cola 2L",
+					id: 1,
+					quantity:1
+				},
+				{
+					label: "Pizza Calabresa",
+					id: 3,
+					quantity:2
+				},
+				{
+					label: "Pizza Frango",
+					id: 4,
+					quantity:1
+				},
+			],
+			actions: "",
 		},
 	]);
 
@@ -328,11 +471,24 @@ export default function RequestPage() {
     const [pedido, setPedido] = React.useState(new model)
 
 	const [name, setName] = React.useState("");
+	const [telefone, setTelefone] = React.useState("");
+	const [hora, setHora] = React.useState("");
+	const [endereco, setEndereco] = React.useState("");
+	const [observacoes,setObservacoes] = React.useState("");
 
 	const [status, setStatus] = React.useState("");
-
 	const handleStatusChange = (e) => {
 		setStatus(e.target.value);
+	};
+
+	const [metodoPagamento, setMetodoPagamento] = React.useState("");
+	const handleMetodoPagamentoChange = (e) => {
+		setMetodoPagamento(e.target.value);
+	};
+
+	const [pagamentoStatus, setPagamentoStatus] = React.useState(false);
+	const handlePagamentoStatusChange = (e) => {
+		setPagamentoStatus(e.target.value);
 	};
 
 	const [itemValue, setItemValue] = React.useState(null)
@@ -380,11 +536,32 @@ export default function RequestPage() {
 	};
 
 	const handleClickOpen = (i) => {
-		console.log(i);
+		
         if(i){
-			setName(i.name);
-			setPedido(new model(i.id,i.nomeDoCliente,i.telefone,i.hora,i.endereco,i.nomeDoCliente,i.observacoes,i.pago,i.entrega))
-			console.log(pedido)
+			setName(i.nomeDoCliente);
+			setTelefone(i.telefone);
+			setHora(i.hora);
+			setEndereco(i.endereco);
+			setStatus(i.status);
+			setMetodoPagamento(i.metodoPagamento);
+			setPagamentoStatus(i.pago);
+			setItemsArray(i.items);
+			setObservacoes(i.observacoes)
+			setPedido(new model(
+				i.id,
+				i.nomeDoCliente,
+				i.telefone,
+				i.hora,
+				i.endereco,
+				i.items, 
+				i.observacoes,
+				i.pago,
+				i.metodoPagamento,
+				i.status
+				));
+			console.log(pedido);
+		}else{
+			clean();
 		}
 		
 		setOpen(true);
@@ -394,8 +571,16 @@ export default function RequestPage() {
 		setOpen(false);
 	};
 
-	const cleanEditOrCreate = () => {
+	const clean = () => {
 		setName("");
+		setTelefone("");
+		setHora(new Date().toLocaleTimeString());
+		setEndereco("");
+		setMetodoPagamento("dinheiro");
+		setStatus("Criado");
+		setObservacoes("");
+		setItemsArray([]);
+		setPagamentoStatus(false);
 		setPedido(new model);
 
 	}
@@ -413,12 +598,53 @@ export default function RequestPage() {
 		//If some field is Empty, show message
 
 		//Second, if editing, validate that was changes
-		if(pedido.id){
+		if(pedido && pedido.id){
 			var changes = "";
 			if(pedido.name != name)
 				changes+= "Nome, ";
 
 			console.log(`Changes: ${changes}`)
+
+			const newState = pedidos.map( obj => {
+				if(obj.id == pedido.id){
+					obj.nomeDoCliente = name;
+					obj.telefone = telefone;
+					obj.hora = hora;
+					obj.endereco = endereco;
+					obj.items = itemsArray;
+					obj.observacoes = observacoes;
+					obj.pago = pagamentoStatus;
+					obj.metodoPagamento = metodoPagamento;
+					obj.status = status;
+
+					return obj;
+				}
+				return obj;
+			});
+			console.log("edit");
+			setPedidos(newState);
+			setFilteredList(newState);
+			setOpen(false);
+		}
+		else
+		{
+			const newState = pedidos.concat({
+				id: pedidos[pedidos.length - 1].id + 1,
+				nomeDoCliente: name,
+				status: status,
+				endereco: endereco,
+				telefone: telefone,
+				hora: hora,
+				pago: pagamentoStatus,
+				valorTotal: 80,
+				metodoPagamento: pagamentoStatus,
+				observacoes: observacoes,
+				entrega: true,
+				items: itemsArray
+			});
+			setPedidos(newState);
+			setFilteredList(newState);
+			setOpen(false);
 		}
 		
 		
@@ -426,42 +652,25 @@ export default function RequestPage() {
 
 	};
 
-	const [filteredList, setFilteredList] = React.useState(rows);
+	const [filteredList, setFilteredList] = React.useState(pedidos);
 
 	const onSearchChanged = (e) => {
 		setFilteredList(
 			e.target.value
-				? rows.filter(function (pedido) {
+				? pedidos.filter(function (pedido) {
 						return (
 							pedido.id == Number(e.target.value) ||
 							pedido.telefone.includes(e.target.value) ||
 							pedido.nomeDoCliente.includes(e.target.value)
 						);
 				  })
-				: rows
+				: pedidos
 		);
 	};
 
 	const [produtos, setProdutos] = React.useState(initialProdutosState);
 
-	const [itemsArray, setItemsArray] = useState([
-		{
-      label: "Coca-Cola 2L",
-      id: 1,
-      quantity:1
-    },
-    {
-      label: "Pizza Calabresa",
-      id: 3,
-      quantity:2
-    },
-    {
-      label: "Pizza Frango",
-      id: 4,
-      quantity:1
-    },
-	]);
-
+	const [itemsArray, setItemsArray] = useState([]);
 
 	const removeItem = (event, value) => {
 		setItemsArray(itemsArray.filter((e) => e !== value));
@@ -517,25 +726,28 @@ export default function RequestPage() {
                     />
                     <TextField
                       label="Telefone"
-                      id="outlined-start-adornment"
+                      id="telefone"
                       sx={{ m: 1, width: "25ch" }}
-                      value={pedido.phone}
+                      value={telefone || ""}
+					  onChange={(e) => setTelefone(e.target.value)}
                     />
                     <TextField
                       label="Horário do Pedido"
-                      id="outlined-start-adornment"
+                      id="horario"
                       sx={{ m: 1, width: "25ch" }}
-                      value={pedido.time}
+                      value={hora || ""}
+					  onChange={(e) => setHora(e.target.value)}
                     />
 
                     <FormControl fullWidth sx={{ m: 1 }}>
-                      <InputLabel htmlFor="outlined-adornment-amount">
+                      <InputLabel htmlFor="endereco">
                         Endereço
                       </InputLabel>
                       <OutlinedInput
-                        id="outlined-adornment-amount"
-                        value={pedido.address}
-                        label="Amount"
+                        id="endereco"
+                        value={endereco || ""}
+					  	onChange={(e) => setEndereco(e.target.value)}
+                        label="Endereço"
                       />
 						{/* change to textField because Input with bug */}
 					  
@@ -615,26 +827,59 @@ export default function RequestPage() {
 							);
 						})}
 					</List>
-					<Select
-						labelId="status-select-label"
-						id="status-select"
-						value={status}
-						label="Status"
-						onChange={handleStatusChange}
-					>
-						<MenuItem value="criado">Criado</MenuItem>
-						<MenuItem value="cozinha">Preparando</MenuItem>
-						<MenuItem value="entrega">P/ Entrega</MenuItem>
-						<MenuItem value="entregue">Entregue</MenuItem>
-					</Select>
+					<FormControl sx={{ m: 1, width: "25ch" }}>
+						<InputLabel id="metodo-pagamento-label">Método Pagamento</InputLabel>
+						<Select
+							labelId="metodo-pagamento-label"
+							id="metodo-pagamento-select"
+							label="Método Pagamento"
+							value={metodoPagamento}
+							onChange={handleMetodoPagamentoChange}
+						>
+							<MenuItem value="dinheiro">Dinheiro</MenuItem>
+							<MenuItem value="cartão">Cartão</MenuItem>
+							<MenuItem value="pix">Pix</MenuItem>
+						</Select>
+					</FormControl>
+					<FormControl sx={{ m: 1, width: "25ch" }}>
+						<InputLabel id="status-select-label">Status</InputLabel>
+						<Select
+							labelId="status-select-label"
+							id="status-select"
+							label="Status"
+							value={status}
+							onChange={handleStatusChange}
+						>
+							<MenuItem value="Criado">Criado</MenuItem>
+							<MenuItem value="Preparando">Preparando</MenuItem>
+							<MenuItem value="Feito">Feito</MenuItem>
+							<MenuItem value="Saiu P/ Entrega">Saiu P/ Entrega</MenuItem>
+							<MenuItem value="Entregue">Entregue</MenuItem>
+						</Select>
+					</FormControl>
+					<FormControl sx={{ m: 1, width: "25ch" }}>
+						<InputLabel id="pago-status-label">Pagamento Status</InputLabel>
+						<Select
+							labelId="pago-status-label"
+							id="pago-status-select"
+							label="Pagamento Status"
+							value={pagamentoStatus}
+							onChange={handlePagamentoStatusChange} 
+						>
+							{/* */}
+							<MenuItem value={true}>Pagamento Efetuado</MenuItem>
+							<MenuItem value={false}>Pagamento Pendente</MenuItem>
+						</Select>
+					</FormControl>
                     <FormControl fullWidth sx={{ m: 1 }}>
                       <InputLabel htmlFor="outlined-adornment-amount">
                         Observações
                       </InputLabel>
                       <OutlinedInput
                         id="outlined-adornment-amount"
-                        value={pedido.amount}
-                        label="Amount"
+                        value={observacoes || ""}
+					  	onChange={(e) => setObservacoes(e.target.value)}
+                        label="Observações"
                       />
                     </FormControl>
                   </div>

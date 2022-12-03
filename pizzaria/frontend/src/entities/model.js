@@ -1,13 +1,14 @@
 class RequestModel {
-	constructor(id,name,phone,time,address,itemList,notes,paid,status) {	
+	constructor(id,name,phone,time,address,items,notes,paid,paidMethod, status) {	
 			this.id = id;
 			this.name= name;
 			this.phone= phone;
 			this.time=time;
 			this.address= address;
-			this.itemList= itemList;
+			this.items= items;
 			this.notes= notes;
 			this.paid= paid;
+			this.paidMethod = paidMethod
 			this.status= status;
 
 	}
