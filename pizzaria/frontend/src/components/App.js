@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom/client";
 import RequestPage from "./Request";
 import CozinhaPage from "./Cozinha";
+import Delivery from "./delivery";
 import Signin from "./Signin";
 import {
 	BrowserRouter as Router,
@@ -32,6 +33,7 @@ export default class App extends Component {
 						<Route exact path="/" element={<Private Item={RequestPage} />}/>
                         <Route exact path="/login" element={<Signin />} />
 						<Route path='/cozinha'  element={<Private Item={CozinhaPage} />}/>
+                        <Route path='/delivery'  element={<Private Item={Delivery} />}/>
 					</Routes>
 				</Router>
 			</AuthProvider>
