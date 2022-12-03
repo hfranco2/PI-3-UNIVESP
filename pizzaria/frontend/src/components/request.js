@@ -899,6 +899,7 @@ export default function RequestPage() {
             rows={filteredList}
             columns={columns}
             pageSize={5}
+			density="comfortable"
             localeText={{
               columnMenuLabel: "Menu",
               columnMenuShowColumns: "Visualização de Colunas",

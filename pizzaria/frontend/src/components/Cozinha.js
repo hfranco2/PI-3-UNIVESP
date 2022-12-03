@@ -11,6 +11,10 @@ import InputLabel from "@mui/material/InputLabel";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { DataGrid } from "@mui/x-data-grid";
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+
 
 //Custom Components
 import MiniDrawer from "./MiniDrawer";
@@ -239,57 +243,106 @@ const rows = [
   }
 ];
 
-const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
-  const { onChange, ...other } = props;
-  return (
-    <IMaskInput
-      {...other}
-      mask="(00) 00000-0000"
-      definitions={{
-        "#": /[1-9]/,
-      }}
-      inputRef={ref}
-      placeholder="0000000000"
-      label="0000000000"
-      onAccept={(value) => onChange({ target: { name: props.name, value } })}
-      overwrite
-    />
-  );
-});
 
-TextMaskCustom.propTypes = {
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
 export default function CozinhaPage() {
-  const [values, setValues] = React.useState({
-    textmask: "(XX) XXXXX-XXXX",
-    numberformat: "1320",
-  });
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
+  
+  React.useEffect(() => {
+		setPedidoAtual({
+      id: 1,
+      name: "Geraldo da Silva",
+      status: "Criado",
+      endereco: "Rua dos bobos, 0",
+      telefone: "19963521478",
+      hora: "12:00",
+      pago: true,
+      valorTotal: 80,
+      metodoPagamento: "cartão",
+      observacoes: "Remover cebola pizza Calabresa",
+      entrega: true,
+      items: [
+        {
+          nome: "Coca-Cola 2L",
+          id: 1,
+          quantity:1,
+          ingredientes: "",
+          valor: 0
+        },
+        {
+          nome: "Pizza Calabresa",
+          id: 3,
+          quantity:2,
+          ingredientes: "Queijo, calabresa e cebola, oregano.", 
+          valor: 0
+        },
+        {
+          nome: "Pizza Frango",
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+        },
+      ],
+    })
+	}, []);
+
+  const [pedidoAtual, setPedidoAtual] = React.useState(null);
+
   return (
     <Box sx={{ display: "flex" }}>
       <MiniDrawer />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Grid container spacing="1"></Grid>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Busque o Produto"
-            inputProps={{ "aria-label": "search" }}
-          />
-        </Search>
+        {pedidoAtual != null &&
+          (
+            <Paper elevation={3} sx={{m:3, p:3}}>
+              <Grid container direction="column" justifyContent="center" alignItems="flex-start" spacing="3">
+                
+                {/* Header Line - Item Atual */}
+                <Grid item> 
+                  <Grid container justifyContent="flex-start" alignItems="center" spacing={3}>
+                    <Grid item>
+                      <Typography variant="h5" gutterBottom>
+                        {pedidoAtual.id} - {pedidoAtual.name} 
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="h5" gutterBottom>
+                        08:45:58
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+
+                {/* Itens do Pedido Line - Item Atual */}
+                {pedidoAtual.items.map((item, index) => (
+                  <Grid item>
+                    <Typography variant="h6" gutterBottom>
+                      {item.quantity}x {item.nome}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {item.ingredientes}
+                    </Typography>
+                    <Divider sx={{ m: 1 }} />
+                  </Grid>
+                ))}
+                 <Grid item>
+                    <Typography variant="subtitle2" gutterBottom>
+                      Observações
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      {pedidoAtual.observacoes}
+                    </Typography>
+                 </Grid>
+              </Grid>
+            </Paper>
+          )
+        }
+        
+        
 
         <Box sx={{ height: 400, width: "100%" }}>
           <DataGrid
+            density="comfortable"
             rows={rows}
             columns={columns}
             pageSize={5}
@@ -349,7 +402,6 @@ export default function CozinhaPage() {
                 },
               }}
             rowsPerPageOptions={[5]}
-            checkboxSelection
             disableSelectionOnClick
             experimentalFeatures={{ newEditingApi: true }}
           />
