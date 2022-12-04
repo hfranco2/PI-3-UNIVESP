@@ -1,3 +1,5 @@
+
+env/
 .env
 pizzaria/app/__pycache__/
 pizzaria/app/migrations/__pycache__/
