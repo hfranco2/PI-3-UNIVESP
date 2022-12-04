@@ -14,50 +14,15 @@ import { DataGrid } from "@mui/x-data-grid";
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-
-
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
 //Custom Components
 import MiniDrawer from "./MiniDrawer";
+import { DialogContent } from "@mui/material";
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.75),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -147,8 +112,30 @@ const rows = [
     pago: true,
     valorTotal: 80,
     metodoPagamento: "cartão",
-    observacoes: "",
-    entrega: true
+    observacoes: "Observações",
+    entrega: true,
+    items: [
+      {
+        label: "Coca-Cola 2L",
+        id: 1,
+        quantity:1
+      },
+      {
+          nome: "Pizza Calabresa",
+          id: 3,
+          quantity:2,
+          ingredientes: "Queijo, calabresa e cebola, oregano.", 
+          valor: 0
+        },
+      {
+          nome: "Pizza Frango",  
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+},
+    ],
+    actions: "",
   },
   {
     id: 2,
@@ -161,7 +148,27 @@ const rows = [
     valorTotal: 80,
     metodoPagamento: "cartão",
     observacoes: "",
-    entrega: true
+    entrega: true,
+    items: [
+      {
+        label: "Coca-Cola 2L",
+        id: 1,
+        quantity:1
+      },
+      {
+        label: "Pizza Queijo",
+        id: 5,
+        quantity:2
+      },
+      {
+          nome: "Pizza Frango",  
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+},
+    ],
+    actions: "",
   },
   {
     id: 3,
@@ -174,7 +181,29 @@ const rows = [
     valorTotal: 80,
     metodoPagamento: "cartão",
     observacoes: "",
-    entrega: true
+    entrega: true,
+    items: [
+      {
+        label: "Coca-Cola 2L",
+        id: 1,
+        quantity:1
+      },
+      {
+          nome: "Pizza Calabresa",
+          id: 3,
+          quantity:2,
+          ingredientes: "Queijo, calabresa e cebola, oregano.", 
+          valor: 0
+        },
+      {
+          nome: "Pizza Frango",  
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+},
+    ],
+    actions: "",
   },
   {
     id: 4,
@@ -187,11 +216,33 @@ const rows = [
     valorTotal: 80,
     metodoPagamento: "cartão",
     observacoes: "",
-    entrega: true
+    entrega: true,
+    items: [
+      {
+        label: "Coca-Cola 2L",
+        id: 1,
+        quantity:1
+      },
+      {
+          nome: "Pizza Calabresa",
+          id: 3,
+          quantity:2,
+          ingredientes: "Queijo, calabresa e cebola, oregano.", 
+          valor: 0
+        },
+      {
+          nome: "Pizza Frango",  
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+},
+    ],
+    actions: "",
   },
   {
     id: 5,
-    nomeDoCliente: "Geraldo da Silva",
+    nomeDoCliente: "Ronaldinho Gaucho",
     status: "Criado",
     endereco: "Rua dos bobos, 0",
     telefone: "19963521478",
@@ -200,11 +251,33 @@ const rows = [
     valorTotal: 80,
     metodoPagamento: "cartão",
     observacoes: "",
-    entrega: true
+    entrega: true,
+    items: [
+      {
+        label: "Coca-Cola 2L",
+        id: 1,
+        quantity:1
+      },
+      {
+          nome: "Pizza Calabresa",
+          id: 3,
+          quantity:2,
+          ingredientes: "Queijo, calabresa e cebola, oregano.", 
+          valor: 0
+        },
+      {
+          nome: "Pizza Frango",  
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+},
+    ],
+    actions: "",
   },
   {
     id: 6,
-    nomeDoCliente: "Geraldo da Silva",
+    nomeDoCliente: "Geraldino",
     status: "Criado",
     endereco: "Rua dos bobos, 0",
     telefone: "19963521478",
@@ -213,20 +286,64 @@ const rows = [
     valorTotal: 80,
     metodoPagamento: "cartão",
     observacoes: "",
-    entrega: true
+    entrega: true,
+    items: [
+      {
+        label: "Coca-Cola 2L",
+        id: 1,
+        quantity:1
+      },
+      {
+          nome: "Pizza Calabresa",
+          id: 3,
+          quantity:2,
+          ingredientes: "Queijo, calabresa e cebola, oregano.", 
+          valor: 0
+        },
+      {
+          nome: "Pizza Frango",  
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+},
+    ],
+    actions: "",
   },
   {
     id: 7,
-    nomeDoCliente: "Geraldo da Silva",
+    nomeDoCliente: "Silviscleiton",
     status: "Criado",
     endereco: "Rua dos bobos, 0",
-    telefone: "19963521478",
+    telefone: "19963521485",
     hora: "12:00",
     pago: true,
     valorTotal: 80,
     metodoPagamento: "cartão",
     observacoes: "",
-    entrega: true
+    entrega: true,
+    items: [
+      {
+        label: "Coca-Cola 2L",
+        id: 1,
+        quantity:1
+      },
+      {
+          nome: "Pizza Calabresa",
+          id: 3,
+          quantity:2,
+          ingredientes: "Queijo, calabresa e cebola, oregano.", 
+          valor: 0
+        },
+      {
+          nome: "Pizza Frango",  
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+},
+    ],
+    actions: "",
   },
   {
     id: 8,
@@ -238,9 +355,31 @@ const rows = [
     pago: true,
     valorTotal: 80,
     metodoPagamento: "cartão",
-    observacoes: "",
-    entrega: true
-  }
+    observacoes: "Observações",
+    entrega: true,
+    items: [
+      {
+        label: "Coca-Cola 2L",
+        id: 1,
+        quantity:1
+      },
+      {
+          nome: "Pizza Calabresa",
+          id: 3,
+          quantity:2,
+          ingredientes: "Queijo, calabresa e cebola, oregano.", 
+          valor: 0
+      },
+      {
+          nome: "Pizza Frango",  
+          id: 4,
+          quantity:1,
+          ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+          valor: 0
+    },
+    ],
+    actions: "",
+  },
 ];
 
 
@@ -282,14 +421,65 @@ export default function CozinhaPage() {
           valor: 0
         },
       ],
-    })
+    });
+
+    // setPedidoClicked({
+    //   id: 1,
+    //   name: "Geraldo da Silva",
+    //   status: "Criado",
+    //   endereco: "Rua dos bobos, 0",
+    //   telefone: "19963521478",
+    //   hora: "12:00",
+    //   pago: true,
+    //   valorTotal: 80,
+    //   metodoPagamento: "cartão",
+    //   observacoes: "Remover cebola pizza Calabresa",
+    //   entrega: true,
+    //   items: [
+    //     {
+    //       nome: "Coca-Cola 2L",
+    //       id: 1,
+    //       quantity:1,
+    //       ingredientes: "",
+    //       valor: 0
+    //     },
+    //     {
+    //       nome: "Pizza Calabresa",
+    //       id: 3,
+    //       quantity:2,
+    //       ingredientes: "Queijo, calabresa e cebola, oregano.", 
+    //       valor: 0
+    //     },
+    //     {
+    //       nome: "Pizza Frango",  
+    //       id: 4,
+    //       quantity:1,
+    //       ingredientes: "Queijo, frango desfiado, Cream Cheese, oregano e parmesão ralado.",
+    //       valor: 0
+    //     },
+    //   ],
+    // })
 	}, []);
 
   const [pedidoAtual, setPedidoAtual] = React.useState(null);
 
+  const [pedidoClicked, setPedidoClicked] = React.useState(null);
+
+  const [dialogIsOpen,setDialogIsOpen] = React.useState(true);
+  const handleClose = () => {
+    setDialogIsOpen(false);
+  };
+
+  const handleOrderClicked = (rowParams) => {
+    console.log(rowParams.row);
+    setPedidoClicked(rowParams.row);
+    setDialogIsOpen(true);
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <MiniDrawer />
+     
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {pedidoAtual != null &&
@@ -333,15 +523,23 @@ export default function CozinhaPage() {
                       {pedidoAtual.observacoes}
                     </Typography>
                  </Grid>
+                 <Grid item>
+                 <Button
+                  variant="contained"
+                  startIcon={<PublishedWithChangesIcon />}
+                >
+                  {/* onClick={(e) => handleClickOpen(null)} */}
+                  Finalizar Pedido
+                </Button>
+                 </Grid>
               </Grid>
             </Paper>
           )
         }
         
-        
-
-        <Box sx={{ height: 400, width: "100%" }}>
+        <Box sx={{ height: 440, width: "100%" }}> 
           <DataGrid
+            onRowClick={handleOrderClicked} 
             density="comfortable"
             rows={rows}
             columns={columns}
@@ -406,6 +604,84 @@ export default function CozinhaPage() {
             experimentalFeatures={{ newEditingApi: true }}
           />
         </Box>
+
+        {pedidoClicked != null &&
+        <Dialog
+          open={dialogIsOpen}
+          fullWidth={true}
+          onClose={handleClose}
+          maxWidth="xl">
+          <DialogTitle>Pedido {pedidoClicked.id}-{pedidoClicked.name} Detalhes</DialogTitle>
+          <DialogContent>
+            <Grid container direction="column" justifyContent="center" alignItems="flex-start" spacing="3">
+              <Grid item>
+                <Grid container justifyContent="flex-start" alignItems="center" spacing={3}>
+                  <Grid item>
+                    <Typography variant="body1" gutterBottom>
+                      {pedidoClicked.endereco}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="body1" gutterBottom>
+                      {pedidoClicked.telefone}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="body1" gutterBottom>
+                      {pedidoClicked.hora}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {pedidoClicked.items.map((item, index) => (
+                  <Grid item>
+                    <Typography variant="h6" gutterBottom>
+                      {item.quantity}x {item.label}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {item.ingredientes}
+                    </Typography>
+                    <Divider sx={{ m: 1 }} />
+                  </Grid>
+                ))}
+                {pedidoClicked.observacoes &&
+                  <Grid item>
+                    <Typography variant="subtitle2" gutterBottom>
+                      Observações
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      {pedidoClicked.observacoes}
+                    </Typography>
+                  </Grid>
+                }
+                
+                <Grid item>
+                  {pedidoClicked.status == "Criado" &&
+                      <Button
+                        variant="contained"
+                        startIcon={<PublishedWithChangesIcon />}
+                        >
+                          Fazer Pedido
+                      </Button>
+                  }
+                  {pedidoClicked.status == "Preparando" &&
+                    <Button
+                    variant="contained"
+                    startIcon={<PublishedWithChangesIcon />}
+                    >
+                      Finalizar Pedido
+                    </Button>
+                  }
+                  
+                 </Grid>
+            </Grid>
+          </DialogContent>   
+          <DialogActions>
+            <Button onClick={handleClose}>Cancelar</Button>
+          </DialogActions>
+        </Dialog>
+      }
+
       </Box>
     </Box>
   );
