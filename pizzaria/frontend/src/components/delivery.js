@@ -39,7 +39,7 @@ export default function Delivery() {
 	const [value, setValue] = React.useState(0);
 	const RequestEdit = ({ index }) => {
 		const toDelivery = () => {
-            console.log(index)
+			console.log(index);
 			setFilteredList(filteredList.filter((e) => e.id != index.id));
 			setFilteredListDelivery((filteredListDelivery) => [
 				...filteredListDelivery,
@@ -274,6 +274,7 @@ export default function Delivery() {
 	const [name, setName] = React.useState("");
 
 	const [status, setStatus] = React.useState("");
+      const [selectionModel, setSelectionModel] = React.useState([]);
 	return (
 		<Box sx={{ display: "flex" }}>
 			<MiniDrawer />
@@ -361,14 +362,25 @@ export default function Delivery() {
 									columns: {
 										columnVisibilityModel: {
 											// Columns to be hide
-											endereco: false,
+											endereco: true,
 										},
 									},
 								}}
 								rowsPerPageOptions={[100]}
-								disableSelectionOnClick
+								// disableSelectionOnClick
+								onSelectionModelChange={(newSelectionModel) => {
+									setSelectionModel(newSelectionModel);
+                                   
+								}}
+								selectionModel={selectionModel}
+								checkboxSelection={true}
 								experimentalFeatures={{ newEditingApi: true }}
 							/>
+                            {
+                                	value != 0 &&
+                                    <Button variant="outlined">Rota</Button>
+                            }
+                           
 						</Box>
 						<Paper
 							sx={{
