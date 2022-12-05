@@ -92,15 +92,15 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	...theme.mixins.toolbar,
 }));
 
-const initialProdutosState = [
-	{ label: "Coca-Cola 2L", id: 1 },
-	{ label: "Coca-Cola 600ml", id: 2 },
-	{ label: "Pizza Calabresa", id: 3 },
-	{ label: "Pizza Frango", id: 4 },
-	{ label: "Pizza Queijo", id: 5 },
-	{ label: "Pizza 4 Queijos", id: 6 },
-	{ label: "Pizza Frango com Catupiry", id: 7 }
-]
+// const initialProdutosState = [
+// 	{ label: "Coca-Cola 2L", id: 1 },
+// 	{ label: "Coca-Cola 600ml", id: 2 },
+// 	{ label: "Pizza Calabresa", id: 3 },
+// 	{ label: "Pizza Frango", id: 4 },
+// 	{ label: "Pizza Queijo", id: 5 },
+// 	{ label: "Pizza 4 Queijos", id: 6 },
+// 	{ label: "Pizza Frango com Catupiry", id: 7 }
+// ]
 
 
 export default function RequestPage() {
@@ -125,6 +125,22 @@ export default function RequestPage() {
 			/>
 		);
 	};
+
+	React.useEffect(() => {
+		loadPedidos();
+	}, []);
+
+	const loadPedidos = async () => {
+		fetch("/app/pedido/all?format=json")
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				setPedidos(data);
+				setFilteredList(data);
+				setPedidosLoading(false);
+				
+			});
+	};
 	
 	const columns = [
 		{ field: "id", headerName: "Código", width: 90 },
@@ -138,7 +154,8 @@ export default function RequestPage() {
 			field: "status",
 			headerName: "Status",
 			type: "singleSelect",
-			valueOptions: ["Criado", "Efetuado", "Retirado"],
+			valueGetter: ({ value }) => value && statusByNumber(value),
+			valueOptions: ["Criado", "Em Preparo", "Pronto P/ Entrega", "Saiu P/ Entrega", "Entregue" ],
 		},
 		{
 			field: "endereco",
@@ -176,6 +193,7 @@ export default function RequestPage() {
 		{
 			field: "metodoPagamento",
 			headerName: "Método Pagamento",
+			valueGetter: ({ value }) => value && pagamentoByNumber(value),
 			width: 110,
 		},
 		{
@@ -210,260 +228,290 @@ export default function RequestPage() {
 		},
 	];
 
-	//const [pedidos, setPedidos] = React.useState([]);
+	const [pedidos, setPedidos] = React.useState([]);
+	const [pedidosLoading, setPedidosLoading] = React.useState(true);
 	//Comente abaixo e descomente acima para iniciar pedidos zerado
-	const [pedidos, setPedidos] = React.useState([
-		{
-			id: 1,
-			nomeDoCliente: "Geraldo da Silva",
-			status: "Criado",
-			endereco: "Rua dos bobos, 0",
-			telefone: "19963521478",
-			hora: "12:00",
-			pago: true,
-			valorTotal: 80,
-			metodoPagamento: "cartão",
-			observacoes: "",
-			entrega: true,
-			items: [
-				{
-					label: "Coca-Cola 2L",
-					id: 1,
-					quantity:1
-				},
-				{
-					label: "Pizza Calabresa",
-					id: 3,
-					quantity:2
-				},
-				{
-					label: "Pizza Frango",
-					id: 4,
-					quantity:1
-				},
-			],
-			actions: "",
-		},
-		{
-			id: 2,
-			nomeDoCliente: "Geraldo da Silva",
-			status: "Criado",
-			endereco: "Rua dos bobos, 0",
-			telefone: "19963521478",
-			hora: "12:00",
-			pago: true,
-			valorTotal: 80,
-			metodoPagamento: "cartão",
-			observacoes: "",
-			entrega: true,
-			items: [
-				{
-					label: "Coca-Cola 2L",
-					id: 1,
-					quantity:1
-				},
-				{
-					label: "Pizza Queijo",
-					id: 5,
-					quantity:2
-				},
-				{
-					label: "Pizza Frango",
-					id: 4,
-					quantity:1
-				},
-			],
-			actions: "",
-		},
-		{
-			id: 3,
-			nomeDoCliente: "Geraldo da Silva",
-			status: "Criado",
-			endereco: "Rua dos bobos, 0",
-			telefone: "19963521478",
-			hora: "12:00",
-			pago: true,
-			valorTotal: 80,
-			metodoPagamento: "cartão",
-			observacoes: "",
-			entrega: true,
-			items: [
-				{
-					label: "Coca-Cola 2L",
-					id: 1,
-					quantity:1
-				},
-				{
-					label: "Pizza Calabresa",
-					id: 3,
-					quantity:2
-				},
-				{
-					label: "Pizza Frango",
-					id: 4,
-					quantity:1
-				},
-			],
-			actions: "",
-		},
-		{
-			id: 4,
-			nomeDoCliente: "Geraldo da Silva",
-			status: "Criado",
-			endereco: "Rua dos bobos, 0",
-			telefone: "19963521478",
-			hora: "12:00",
-			pago: true,
-			valorTotal: 80,
-			metodoPagamento: "cartão",
-			observacoes: "",
-			entrega: true,
-			items: [
-				{
-					label: "Coca-Cola 2L",
-					id: 1,
-					quantity:1
-				},
-				{
-					label: "Pizza Calabresa",
-					id: 3,
-					quantity:2
-				},
-				{
-					label: "Pizza Frango",
-					id: 4,
-					quantity:1
-				},
-			],
-			actions: "",
-		},
-		{
-			id: 5,
-			nomeDoCliente: "Ronaldinho Gaucho",
-			status: "Criado",
-			endereco: "Rua dos bobos, 0",
-			telefone: "19963521478",
-			hora: "12:00",
-			pago: true,
-			valorTotal: 80,
-			metodoPagamento: "cartão",
-			observacoes: "",
-			entrega: true,
-			items: [
-				{
-					label: "Coca-Cola 2L",
-					id: 1,
-					quantity:1
-				},
-				{
-					label: "Pizza Calabresa",
-					id: 3,
-					quantity:2
-				},
-				{
-					label: "Pizza Frango",
-					id: 4,
-					quantity:1
-				},
-			],
-			actions: "",
-		},
-		{
-			id: 6,
-			nomeDoCliente: "Geraldino",
-			status: "Criado",
-			endereco: "Rua dos bobos, 0",
-			telefone: "19963521478",
-			hora: "12:00",
-			pago: true,
-			valorTotal: 80,
-			metodoPagamento: "cartão",
-			observacoes: "",
-			entrega: true,
-			items: [
-				{
-					label: "Coca-Cola 2L",
-					id: 1,
-					quantity:1
-				},
-				{
-					label: "Pizza Calabresa",
-					id: 3,
-					quantity:2
-				},
-				{
-					label: "Pizza Frango",
-					id: 4,
-					quantity:1
-				},
-			],
-			actions: "",
-		},
-		{
-			id: 7,
-			nomeDoCliente: "Silviscleiton",
-			status: "Criado",
-			endereco: "Rua dos bobos, 0",
-			telefone: "19963521485",
-			hora: "12:00",
-			pago: true,
-			valorTotal: 80,
-			metodoPagamento: "cartão",
-			observacoes: "",
-			entrega: true,
-			items: [
-				{
-					label: "Coca-Cola 2L",
-					id: 1,
-					quantity:1
-				},
-				{
-					label: "Pizza Calabresa",
-					id: 3,
-					quantity:2
-				},
-				{
-					label: "Pizza Frango",
-					id: 4,
-					quantity:1
-				},
-			],
-			actions: "",
-		},
-		{
-			id: 8,
-			nomeDoCliente: "Geraldo da Silva",
-			status: "Criado",
-			endereco: "Rua dos bobos, 0",
-			telefone: "19963521478",
-			hora: "12:00",
-			pago: true,
-			valorTotal: 80,
-			metodoPagamento: "cartão",
-			observacoes: "",
-			entrega: true,
-			items: [
-				{
-					label: "Coca-Cola 2L",
-					id: 1,
-					quantity:1
-				},
-				{
-					label: "Pizza Calabresa",
-					id: 3,
-					quantity:2
-				},
-				{
-					label: "Pizza Frango",
-					id: 4,
-					quantity:1
-				},
-			],
-			actions: "",
-		},
-	]);
+	// const [pedidos, setPedidos] = React.useState([
+	// 	{
+	// 		id: 1,
+	// 		nomeDoCliente: "Geraldo da Silva",
+	// 		status: "Criado",
+	// 		endereco: "Rua dos bobos, 0",
+	// 		telefone: "19963521478",
+	// 		hora: "12:00",
+	// 		pago: true,
+	// 		valorTotal: 80,
+	// 		metodoPagamento: "cartão",
+	// 		observacoes: "",
+	// 		entrega: true,
+	// 		items: [
+	// 			{
+	// 				label: "Coca-Cola 2L",
+	// 				id: 1,
+	// 				quantity:1
+	// 			},
+	// 			{
+	// 				label: "Pizza Calabresa",
+	// 				id: 3,
+	// 				quantity:2
+	// 			},
+	// 			{
+	// 				label: "Pizza Frango",
+	// 				id: 4,
+	// 				quantity:1
+	// 			},
+	// 		],
+	// 		actions: "",
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		nomeDoCliente: "Geraldo da Silva",
+	// 		status: "Criado",
+	// 		endereco: "Rua dos bobos, 0",
+	// 		telefone: "19963521478",
+	// 		hora: "12:00",
+	// 		pago: true,
+	// 		valorTotal: 80,
+	// 		metodoPagamento: "cartão",
+	// 		observacoes: "",
+	// 		entrega: true,
+	// 		items: [
+	// 			{
+	// 				label: "Coca-Cola 2L",
+	// 				id: 1,
+	// 				quantity:1
+	// 			},
+	// 			{
+	// 				label: "Pizza Queijo",
+	// 				id: 5,
+	// 				quantity:2
+	// 			},
+	// 			{
+	// 				label: "Pizza Frango",
+	// 				id: 4,
+	// 				quantity:1
+	// 			},
+	// 		],
+	// 		actions: "",
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		nomeDoCliente: "Geraldo da Silva",
+	// 		status: "Criado",
+	// 		endereco: "Rua dos bobos, 0",
+	// 		telefone: "19963521478",
+	// 		hora: "12:00",
+	// 		pago: true,
+	// 		valorTotal: 80,
+	// 		metodoPagamento: "cartão",
+	// 		observacoes: "",
+	// 		entrega: true,
+	// 		items: [
+	// 			{
+	// 				label: "Coca-Cola 2L",
+	// 				id: 1,
+	// 				quantity:1
+	// 			},
+	// 			{
+	// 				label: "Pizza Calabresa",
+	// 				id: 3,
+	// 				quantity:2
+	// 			},
+	// 			{
+	// 				label: "Pizza Frango",
+	// 				id: 4,
+	// 				quantity:1
+	// 			},
+	// 		],
+	// 		actions: "",
+	// 	},
+	// 	{
+	// 		id: 4,
+	// 		nomeDoCliente: "Geraldo da Silva",
+	// 		status: "Criado",
+	// 		endereco: "Rua dos bobos, 0",
+	// 		telefone: "19963521478",
+	// 		hora: "12:00",
+	// 		pago: true,
+	// 		valorTotal: 80,
+	// 		metodoPagamento: "cartão",
+	// 		observacoes: "",
+	// 		entrega: true,
+	// 		items: [
+	// 			{
+	// 				label: "Coca-Cola 2L",
+	// 				id: 1,
+	// 				quantity:1
+	// 			},
+	// 			{
+	// 				label: "Pizza Calabresa",
+	// 				id: 3,
+	// 				quantity:2
+	// 			},
+	// 			{
+	// 				label: "Pizza Frango",
+	// 				id: 4,
+	// 				quantity:1
+	// 			},
+	// 		],
+	// 		actions: "",
+	// 	},
+	// 	{
+	// 		id: 5,
+	// 		nomeDoCliente: "Ronaldinho Gaucho",
+	// 		status: "Criado",
+	// 		endereco: "Rua dos bobos, 0",
+	// 		telefone: "19963521478",
+	// 		hora: "12:00",
+	// 		pago: true,
+	// 		valorTotal: 80,
+	// 		metodoPagamento: "cartão",
+	// 		observacoes: "",
+	// 		entrega: true,
+	// 		items: [
+	// 			{
+	// 				label: "Coca-Cola 2L",
+	// 				id: 1,
+	// 				quantity:1
+	// 			},
+	// 			{
+	// 				label: "Pizza Calabresa",
+	// 				id: 3,
+	// 				quantity:2
+	// 			},
+	// 			{
+	// 				label: "Pizza Frango",
+	// 				id: 4,
+	// 				quantity:1
+	// 			},
+	// 		],
+	// 		actions: "",
+	// 	},
+	// 	{
+	// 		id: 6,
+	// 		nomeDoCliente: "Geraldino",
+	// 		status: "Criado",
+	// 		endereco: "Rua dos bobos, 0",
+	// 		telefone: "19963521478",
+	// 		hora: "12:00",
+	// 		pago: true,
+	// 		valorTotal: 80,
+	// 		metodoPagamento: "cartão",
+	// 		observacoes: "",
+	// 		entrega: true,
+	// 		items: [
+	// 			{
+	// 				label: "Coca-Cola 2L",
+	// 				id: 1,
+	// 				quantity:1
+	// 			},
+	// 			{
+	// 				label: "Pizza Calabresa",
+	// 				id: 3,
+	// 				quantity:2
+	// 			},
+	// 			{
+	// 				label: "Pizza Frango",
+	// 				id: 4,
+	// 				quantity:1
+	// 			},
+	// 		],
+	// 		actions: "",
+	// 	},
+	// 	{
+	// 		id: 7,
+	// 		nomeDoCliente: "Silviscleiton",
+	// 		status: "Criado",
+	// 		endereco: "Rua dos bobos, 0",
+	// 		telefone: "19963521485",
+	// 		hora: "12:00",
+	// 		pago: true,
+	// 		valorTotal: 80,
+	// 		metodoPagamento: "cartão",
+	// 		observacoes: "",
+	// 		entrega: true,
+	// 		items: [
+	// 			{
+	// 				label: "Coca-Cola 2L",
+	// 				id: 1,
+	// 				quantity:1
+	// 			},
+	// 			{
+	// 				label: "Pizza Calabresa",
+	// 				id: 3,
+	// 				quantity:2
+	// 			},
+	// 			{
+	// 				label: "Pizza Frango",
+	// 				id: 4,
+	// 				quantity:1
+	// 			},
+	// 		],
+	// 		actions: "",
+	// 	},
+	// 	{
+	// 		id: 8,
+	// 		nomeDoCliente: "Geraldo da Silva",
+	// 		status: "Criado",
+	// 		endereco: "Rua dos bobos, 0",
+	// 		telefone: "19963521478",
+	// 		hora: "12:00",
+	// 		pago: true,
+	// 		valorTotal: 80,
+	// 		metodoPagamento: "cartão",
+	// 		observacoes: "",
+	// 		entrega: true,
+	// 		items: [
+	// 			{
+	// 				label: "Coca-Cola 2L",
+	// 				id: 1,
+	// 				quantity:1
+	// 			},
+	// 			{
+	// 				label: "Pizza Calabresa",
+	// 				id: 3,
+	// 				quantity:2
+	// 			},
+	// 			{
+	// 				label: "Pizza Frango",
+	// 				id: 4,
+	// 				quantity:1
+	// 			},
+	// 		],
+	// 		actions: "",
+	// 	},
+	// ]);
 
 	
+	const statusByNumber = (number) => {
+		switch(number) {
+			case 1:
+			  return "Criado";
+			case 2:
+			  return "Em Preparo";
+			case 3:
+				return "Pronto P/ Entrega";
+			case 4:
+				return "Saiu P/ Entrega";
+			case 5:
+				return "Entregue";
+			default:
+				return "---";
+		  }
+	};
+	
+	const pagamentoByNumber = (number) => {
+		switch(number) {
+			case 1:
+			  return "Dinheiro";
+			case 2:
+			  return "Cartão";
+			case 3:
+				return "Pix";
+			default:
+				return "---";
+		  }
+	};
 
     const model = require('../entities/model')
 	const [open, setOpen] = React.useState(false);
@@ -472,7 +520,6 @@ export default function RequestPage() {
 
 	const [name, setName] = React.useState("");
 	const [telefone, setTelefone] = React.useState("");
-	const [hora, setHora] = React.useState("");
 	const [endereco, setEndereco] = React.useState("");
 	const [observacoes,setObservacoes] = React.useState("");
 
@@ -524,8 +571,11 @@ export default function RequestPage() {
 		}else{
 			const newState = itemsArray.concat(
 				{
-					label: itemValue.label,
+					nome: itemValue.nome,
 					id: itemValue.id,
+					valor: itemValue.valor,
+					ingredientes: itemValue.ingredientes,
+					descricao: itemValue.descricao,
 					quantity: itemQuantity
 				}
 			);
@@ -535,12 +585,22 @@ export default function RequestPage() {
 		setItemValue(null);
 	};
 
+	const loadProdutos = async () => {
+		fetch("/app/produto?format=json")
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			setProdutos(data);
+			
+		});
+	};
+
 	const handleClickOpen = (i) => {
-		
+		loadProdutos();
         if(i){
 			setName(i.nomeDoCliente);
 			setTelefone(i.telefone);
-			setHora(i.hora);
+			//setHora(i.hora);
 			setEndereco(i.endereco);
 			setStatus(i.status);
 			setMetodoPagamento(i.metodoPagamento);
@@ -574,10 +634,10 @@ export default function RequestPage() {
 	const clean = () => {
 		setName("");
 		setTelefone("");
-		setHora(new Date().toLocaleTimeString());
+		//setHora(new Date().toLocaleTimeString());
 		setEndereco("");
 		setMetodoPagamento("dinheiro");
-		setStatus("Criado");
+		setStatus(1);
 		setObservacoes("");
 		setItemsArray([]);
 		setPagamentoStatus(false);
@@ -604,12 +664,11 @@ export default function RequestPage() {
 				changes+= "Nome, ";
 
 			console.log(`Changes: ${changes}`)
-
 			const newState = pedidos.map( obj => {
 				if(obj.id == pedido.id){
 					obj.nomeDoCliente = name;
 					obj.telefone = telefone;
-					obj.hora = hora;
+					//obj.hora = hora; Não atualiza hora
 					obj.endereco = endereco;
 					obj.items = itemsArray;
 					obj.observacoes = observacoes;
@@ -628,6 +687,7 @@ export default function RequestPage() {
 		}
 		else
 		{
+			const hora = new Date().toISOString();
 			const newState = pedidos.concat({
 				id: pedidos[pedidos.length - 1].id + 1,
 				nomeDoCliente: name,
@@ -668,7 +728,7 @@ export default function RequestPage() {
 		);
 	};
 
-	const [produtos, setProdutos] = React.useState(initialProdutosState);
+	const [produtos, setProdutos] = React.useState([]);
 
 	const [itemsArray, setItemsArray] = useState([]);
 
@@ -731,13 +791,13 @@ export default function RequestPage() {
                       value={telefone || ""}
 					  onChange={(e) => setTelefone(e.target.value)}
                     />
-                    <TextField
+                    {/* <TextField
                       label="Horário do Pedido"
                       id="horario"
                       sx={{ m: 1, width: "25ch" }}
                       value={hora || ""}
 					  onChange={(e) => setHora(e.target.value)}
-                    />
+                    /> */}
 
                     <FormControl fullWidth sx={{ m: 1 }}>
                       <InputLabel htmlFor="endereco">
@@ -759,6 +819,7 @@ export default function RequestPage() {
                           clearOnEscape
                           id="items-combo-box"
                           options={produtos}
+						  getOptionLabel={(option) => `${option.nome} - R$ ${option.valor}`}
                           sx={{ m: 1, width: "25ch" }}
                           value={itemValue} //change this to load only when dialog appears
 						  onChange={handleItemValueChange}
@@ -809,7 +870,7 @@ export default function RequestPage() {
 									>
 										<ListItemText
 											id={labelId}
-											primary={`${value.quantity} x ${value.label} `}
+											primary={`${value.quantity} x ${value.nome} - ${value.valor}`}
 										/>
 										<DeleteIcon
 											sx={{
@@ -850,11 +911,11 @@ export default function RequestPage() {
 							value={status}
 							onChange={handleStatusChange}
 						>
-							<MenuItem value="Criado">Criado</MenuItem>
-							<MenuItem value="Preparando">Preparando</MenuItem>
-							<MenuItem value="Feito">Feito</MenuItem>
-							<MenuItem value="Saiu P/ Entrega">Saiu P/ Entrega</MenuItem>
-							<MenuItem value="Entregue">Entregue</MenuItem>
+							<MenuItem value={1}>Criado</MenuItem>
+							<MenuItem value={2}>Preparando</MenuItem>
+							<MenuItem value={3}>Feito</MenuItem>
+							<MenuItem value={4}>Saiu P/ Entrega</MenuItem>
+							<MenuItem value={5}>Entregue</MenuItem>
 						</Select>
 					</FormControl>
 					<FormControl sx={{ m: 1, width: "25ch" }}>
@@ -897,6 +958,7 @@ export default function RequestPage() {
         <Box sx={{ height: 400, width: "100%" }}>
           <DataGrid
             rows={filteredList}
+			loading={pedidosLoading}
             columns={columns}
             pageSize={5}
 			density="comfortable"
